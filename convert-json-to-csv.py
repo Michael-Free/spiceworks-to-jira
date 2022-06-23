@@ -1,5 +1,6 @@
 import json
 from multiprocessing.pool import TERMINATE
+import threading
 import os
 import pandas as pd
 
@@ -49,18 +50,27 @@ def write_ticketcsv(ticketdata):
             tickets_write.close()
         else:
             print(swt.keys())
-def user_lookup(csv):
-    print("hello")
-    users_csv = pd.read_csv(csv)
-    
+def user_lookup(user_id):
+    users_csv = pd.read_csv(current_directory+"/users.csv", index_col=False)
+    if user_id in users_csv.USERID:
+        user_row = users_csv.loc[users_csv['USERID'] == user_id]
+        ## add in if userid doesn't exist
+        if user_row.FULLNAME.to_string(index=False) == 'NaN':
+            print(user_row.EMAIL.to_string(index=False))
+        else:
+            print(user_row.FULLNAME.to_string(index=False))
+
 with open(spiceworks_json, 'r',encoding='utf-8') as spiceworks_data:
     swd = json.load(spiceworks_data)
     spiceworks_users = swd["users"]
+    # maybe do some threading here
     create_usercsv()    
     for swu in spiceworks_users:
         write_usercsv(swu)
     spiceworks_tickets = swd["tickets"]
     create_ticketcsv()
+    # maybe do some threading here
     write_ticketcsv(spiceworks_tickets)
     spiceworks_data.close()
-user_lookup(current_directory+"/users.csv")
+
+user_lookup(100)
