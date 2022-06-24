@@ -1,5 +1,29 @@
 '''
-docstring
+        ███████╗██████╗ ██╗ ██████╗███████╗        ██████╗              ██╗██╗██████╗  █████╗ 
+        ██╔════╝██╔══██╗██║██╔════╝██╔════╝        ╚════██╗             ██║██║██╔══██╗██╔══██╗
+        ███████╗██████╔╝██║██║     █████╗           █████╔╝             ██║██║██████╔╝███████║
+        ╚════██║██╔═══╝ ██║██║     ██╔══╝          ██╔═══╝         ██   ██║██║██╔══██╗██╔══██║
+        ███████║██║     ██║╚██████╗███████╗███████╗███████╗███████╗╚█████╔╝██║██║  ██║██║  ██║
+        ╚══════╝╚═╝     ╚═╝ ╚═════╝╚══════╝╚══════╝╚══════╝╚══════╝ ╚════╝ ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝
+          (A.K.A. I WAS GIVEN A 7200+ LINE JSON FILE AND EXPECTED TO DO SOMETHING WITH IT)
+
+PROBLEM
+    - Spiceworks is ending support of their free, ticketing software.
+    - The organization has chosen to use JIRA Service Management as its new ticketing software.
+    - This will be used by the IT Staff and the Facilities Staff.
+    - 
+
+CONSTRAINTS
+
+OUTCOMES
+- IT importing old tickets 
+
+ISSUES
+- issues with concat long email addresses
+- no exception handling
+
+REQUIREMENTS
+- 
 '''
 import json
 import os
@@ -22,7 +46,7 @@ def write_usercsv(userdata):
     '''
     Write all users from json to a users.csv file.
     '''
-    with open(current_directory+'/users.csv', 'a+', encoding='utf-8') as spiceworksusers_append:
+    with open(user_csv, 'a+', encoding='utf-8') as spiceworksusers_append:
         if userdata["role"] == "admin":
             spiceworksusers_append.write(
                 "\n"+str(userdata["import_id"])+
@@ -44,11 +68,11 @@ def write_usercsv(userdata):
                 str(userdata["import_id"])+
                 ","+userdata["email"]+", ,"
                 )
-    spiceworksusers_append.close()
+    return spiceworksusers_append.close()
 
 def write_ticketcsv(ticketdata):
     '''
-    docstring
+    
     '''
     count_tickets = 0
     for swt in ticketdata:
@@ -60,7 +84,7 @@ def write_ticketcsv(ticketdata):
                 description_content = ' '
             else:
                 print(swt.keys())
-            with open(current_directory+"/tickets.csv",'a+',encoding='utf-8') as tickets_write:
+            with open(tickets_csv,'a+',encoding='utf-8') as tickets_write:
                 tickets_write.write(
                     "\n"+str(count_tickets)+
                     ","+str(swt["assigned_to"])+
@@ -73,21 +97,32 @@ def write_ticketcsv(ticketdata):
                     )
             tickets_write.close()
         else:
+            '''
+            ASSIGNED TO ISSUE
+            dict_keys(['category', 'created_at', 'created_by', 
+            'description', 'email_message_id', 'first_response_secs', 
+            'priority', 'site_id', 'status', 
+            'status_updated_at', 'summary', 'updated_at', 
+            'viewed_at', 'import_id', 'Comments'])
+            '''
             print("ASSIGNED TO ISSUE")
             print(swt.keys())
 
 def user_lookup(user_id):
     '''
-    docstring
+    - Look up a user id number from spiceworks, return the email address to attach to a JIRA account
     '''
-    users_csv = pd.read_csv(current_directory+"/users.csv", index_col=False)
+    users_csv = pd.read_csv(user_csv, index_col=False)
     user_row = users_csv.loc[users_csv['USERID'] == user_id]
     user_email= user_row.EMAIL.to_string(index=False)
     return user_email
 
 def format_comments(commentdata):
     '''
-    docstring
+    - iterate through all comments in a ticket. 
+    - return the time the ticket was updated at, who updated it, and the content of the comment for each ticket
+    - strip out anything that can mess up the csv file at this point. 
+    - record all escape characters as plain text for now. 
     '''
     for comments in range(len(commentdata)):
         comment_dict = commentdata[comments]
@@ -102,9 +137,13 @@ def format_comments(commentdata):
 
 def assign_userids():
     '''
-    docstring
+    - Read the UserID number in assigned ticket users from the spiceworks tickets.csv file
+    - Look up that UserID number in users.csv, return a corresponding email address
+
+    +
+
     '''
-    read_tickets = pd.read_csv(current_directory+"/tickets.csv")
+    read_tickets = pd.read_csv(tickets_csv)
     a_id = read_tickets['ASSIGNED_ID']
     assignees = []
     for assign_id in a_id:
@@ -117,7 +156,7 @@ def assign_userids():
         creators.append(user_lookup(int(create_id)))
     read_tickets.drop(columns='CREATED_ID', inplace=True)
     read_tickets.insert(loc=2, column="CREATED_ID", value=creators)
-    read_tickets.to_csv(current_directory+'/tickets_excelview.csv', index=False)
+    return read_tickets.to_csv(current_directory+'/tickets_excelview.csv', index=False)
 
 def create_ticketdata():
     '''
@@ -130,12 +169,15 @@ def create_ticketdata():
             write_usercsv(swu)
         spiceworks_tickets = swd["tickets"]
         write_ticketcsv(spiceworks_tickets)
-        spiceworks_data.close()
+    return spiceworks_data.close()
 
 create_csvs(user_csv,
-    'USERID,EMAIL,NAME,FULLNAME')
+    'USERID,EMAIL,NAME,FULLNAME'
+    )
 create_csvs(tickets_csv,
-    'TICKET_NO,ASSIGNED_ID,CREATED_ID,CREATED_AT,STATUS,SUMMARY,DESCRIPTION,COMMENTS')
+    'TICKET_NO,ASSIGNED_ID,CREATED_ID,CREATED_AT,STATUS,SUMMARY,DESCRIPTION,COMMENTS'
+    )
 create_ticketdata()
 assign_userids()
-#codecs.open(file, 'r', encoding='unicode_escape')
+# after this - reformat the csv file - making importable to jira
+##open(file, 'r', encoding='unicode_escape')
