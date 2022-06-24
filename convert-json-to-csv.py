@@ -36,7 +36,7 @@ def write_usercsv(userdata):
             " "+userdata["last_name"]
             )
     else:
-        spiceworksusers_append.write("\n"+str(userdata["import_id"])+","+userdata["email"]+",,")
+        spiceworksusers_append.write("\n"+str(userdata["import_id"])+","+userdata["email"]+", ,")
     spiceworksusers_append.close()
 
 def write_ticketcsv(ticketdata):
@@ -47,7 +47,7 @@ def write_ticketcsv(ticketdata):
             if 'description' in swt:
                 description_content = repr(swt["description"]).replace(',','.')
             elif 'description' not in swt:
-                description_content = ''
+                description_content = ' '
             else:
                 print(swt.keys())
             tickets_write = open(current_directory+"/tickets.csv",'a+',encoding='utf-8')
@@ -57,7 +57,7 @@ def write_ticketcsv(ticketdata):
                 ","+str(swt["created_by"])+
                 ","+swt["created_at"]+
                 ","+swt["status"]+
-                ","+str(swt["summary"]).replace(',','.').replace('\n','')+
+                ","+str(swt["summary"]).replace(',','.').replace('\n',' ')+
                 ","+description_content.replace('\'','').replace('\"','')+
                 ","+format_comments(swt["Comments"])
                 )
