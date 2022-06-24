@@ -1,5 +1,5 @@
 '''
-        ███████╗██████╗ ██╗ ██████╗███████╗        ██████╗              ██╗██╗██████╗  █████╗ 
+        ███████╗██████╗ ██╗ ██████╗███████╗        ██████╗              ██╗██╗██████╗  █████╗
         ██╔════╝██╔══██╗██║██╔════╝██╔════╝        ╚════██╗             ██║██║██╔══██╗██╔══██╗
         ███████╗██████╔╝██║██║     █████╗           █████╔╝             ██║██║██████╔╝███████║
         ╚════██║██╔═══╝ ██║██║     ██╔══╝          ██╔═══╝         ██   ██║██║██╔══██╗██╔══██║
@@ -11,19 +11,20 @@ PROBLEM
     - Spiceworks is ending support of their free, ticketing software.
     - The organization has chosen to use JIRA Service Management as its new ticketing software.
     - This will be used by the IT Staff and the Facilities Staff.
-    - 
+    - IT Staff have moved to JIRA, but Facilities Staff need to access their old tickets.
 
 CONSTRAINTS
-
-OUTCOMES
-- IT importing old tickets 
+    - Time is limited to get this done.
+    - There isn't an option for importing this into a database to play with the data.
+    - Will need to work with CSV files, especially since this is required for JIRA imports.
 
 ISSUES
-- issues with concat long email addresses
-- no exception handling
+    - issues with concat long email addresses
+    - no exception handling
 
 REQUIREMENTS
-- 
+    - Python 3.10.x
+    - Pandas
 '''
 import json
 import os
@@ -72,7 +73,10 @@ def write_usercsv(userdata):
 
 def write_ticketcsv(ticketdata):
     '''
-    
+    - receive all data in a spiceworks ticket
+    - count all tickets with an "assigned_to" header.
+    - grab the content of the description of that ticket.
+    - parse all the json data into tickets.csv
     '''
     count_tickets = 0
     for swt in ticketdata:
@@ -98,12 +102,13 @@ def write_ticketcsv(ticketdata):
             tickets_write.close()
         else:
             '''
-            ASSIGNED TO ISSUE
-            dict_keys(['category', 'created_at', 'created_by', 
-            'description', 'email_message_id', 'first_response_secs', 
-            'priority', 'site_id', 'status', 
-            'status_updated_at', 'summary', 'updated_at', 
-            'viewed_at', 'import_id', 'Comments'])
+            - For tickets that aren't formatting properly this is the output i'm getting:
+                    ASSIGNED TO ISSUE
+                    dict_keys(['category', 'created_at', 'created_by',
+                    'description', 'email_message_id', 'first_response_secs',
+                    'priority', 'site_id', 'status',
+                    'status_updated_at', 'summary', 'updated_at',
+                    'viewed_at', 'import_id', 'Comments'])
             '''
             print("ASSIGNED TO ISSUE")
             print(swt.keys())
@@ -119,10 +124,11 @@ def user_lookup(user_id):
 
 def format_comments(commentdata):
     '''
-    - iterate through all comments in a ticket. 
-    - return the time the ticket was updated at, who updated it, and the content of the comment for each ticket
-    - strip out anything that can mess up the csv file at this point. 
-    - record all escape characters as plain text for now. 
+    - iterate through all comments in a ticket.
+    - return the time the ticket was updated at, who updated it,
+    and the content of the comment for each ticket
+    - strip out anything that can mess up the csv file at this point.
+    - record all escape characters as plain text for now.
     '''
     for comments in range(len(commentdata)):
         comment_dict = commentdata[comments]
@@ -131,7 +137,8 @@ def format_comments(commentdata):
             comment_dict['updated_at']+
             " BY: "+user_lookup(comment_dict['created_by'])+
             repr("\n")+
-            repr(comment_dict['body']).replace(',','.').replace('\'','').replace('\"','').replace('\'','')
+            repr(comment_dict['body']).replace(',','.')
+                .replace('\'','').replace('\"','').replace('\'','')
             )
     return ticket_comments
 
@@ -139,9 +146,7 @@ def assign_userids():
     '''
     - Read the UserID number in assigned ticket users from the spiceworks tickets.csv file
     - Look up that UserID number in users.csv, return a corresponding email address
-
-    +
-
+    - write that into the tickets_excelview.csv
     '''
     read_tickets = pd.read_csv(tickets_csv)
     a_id = read_tickets['ASSIGNED_ID']
