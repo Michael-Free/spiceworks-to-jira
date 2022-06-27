@@ -185,4 +185,10 @@ create_csvs(tickets_csv,
 create_ticketdata()
 assign_userids()
 
-#merge Description and Columns
+format_jira = pd.read_csv(tickets_csv)
+#merge Description and Comments columns
+format_jira["Description"] = format_jira["DESCRIPTION"] + format_jira["COMMENTS"]
+# drop the two columns just merged
+format_jira.drop(columns='DESCRIPTION', inplace=True)
+format_jira.drop(columns='COMMENTS', inplace=True)
+format_jira.to_csv(tickets_csv, index=False)
