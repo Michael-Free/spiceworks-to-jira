@@ -83,7 +83,7 @@ def write_ticketcsv(ticketdata):
         if 'assigned_to' in swt:
             count_tickets +=1
             if 'description' in swt:
-                description_content = repr(swt["description"]).replace(',','.')
+                description_content = repr(swt["description"]+'\n').replace(',','.').replace('\'','')
             elif 'description' not in swt:
                 description_content = ' '
             else:
@@ -126,7 +126,7 @@ def format_comments(commentdata):
     '''
     - iterate through all comments in a ticket.
     - return the time the ticket was updated at, who updated it,
-    and the content of the comment for each ticket
+      and the content of the comment for each ticket
     - strip out anything that can mess up the csv file at this point.
     - record all escape characters as plain text for now.
     '''
@@ -136,7 +136,7 @@ def format_comments(commentdata):
             "UPDATED AT: "+
             comment_dict['updated_at']+
             " BY: "+user_lookup(comment_dict['created_by'])+
-            repr("\n")+
+            repr("\n").replace('\'','')+
             repr(comment_dict['body']).replace(',','.')
                 .replace('\'','').replace('\"','').replace('\'','')
             )
@@ -161,7 +161,7 @@ def assign_userids():
         creators.append(user_lookup(int(create_id)))
     read_tickets.drop(columns='CREATED_ID', inplace=True)
     read_tickets.insert(loc=2, column="CREATED_ID", value=creators)
-    return read_tickets.to_csv(current_directory+'/tickets_excelview.csv', index=False)
+    return read_tickets.to_csv(tickets_csv, index=False)
 
 def create_ticketdata():
     '''
@@ -184,5 +184,5 @@ create_csvs(tickets_csv,
     )
 create_ticketdata()
 assign_userids()
-# after this - reformat the csv file - making importable to jira
-##open(file, 'r', encoding='unicode_escape')
+
+#merge Description and Columns
