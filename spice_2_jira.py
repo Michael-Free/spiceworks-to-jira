@@ -188,7 +188,11 @@ assign_userids()
 format_jira = pd.read_csv(tickets_csv)
 #merge Description and Comments columns
 format_jira["Description"] = format_jira["DESCRIPTION"] + format_jira["COMMENTS"]
-# drop the two columns just merged
+# drop the two columns just merged and TICKET_NO
 format_jira.drop(columns='DESCRIPTION', inplace=True)
 format_jira.drop(columns='COMMENTS', inplace=True)
+format_jira.drop(columns='TICKET_NO', inplace=True)
+# Change all of the column names to be more JIRA friendly
+format_jira.rename(columns={'ASSIGNED_ID':'Assignee', 'CREATED_ID':'Reporter', 'STATUS':'Status', 'CREATED_AT':'Due Date','SUMMARY':'Summary'}, inplace=True)
 format_jira.to_csv(tickets_csv, index=False)
+
