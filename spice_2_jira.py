@@ -29,12 +29,14 @@ REQUIREMENTS
 import json
 import os
 import pandas as pd
+import csv
 
 current_directory=os.getcwd()
 spiceworks_json=current_directory+'/exported_data.json'
 user_csv=current_directory+'/users.csv'
 tickets_csv=current_directory+'/tickets.csv'
-
+pd.set_option('display.max_columns', None)
+pd.set_option('display.max_colwidth', None)
 def create_csvs(csv_file,csv_headers):
     '''
     Create a CSV file with the filename provided and the headers provided
@@ -97,7 +99,7 @@ def write_ticketcsv(ticketdata):
                     ","+swt["status"]+
                     ","+str(swt["summary"]).replace(',','.').replace('\n',' ')+
                     ","+description_content.replace('\'','').replace('\"','')+
-                    ","+format_comments(swt["Comments"])
+                    ","+str(format_comments(swt["Comments"]))
                     )
             tickets_write.close()
         else:
@@ -148,7 +150,7 @@ def assign_userids():
     - Look up that UserID number in users.csv, return a corresponding email address
     - write that into the tickets_excelview.csv
     '''
-    read_tickets = pd.read_csv(tickets_csv)
+    read_tickets = pd.read_csv(tickets_csv, dtype={'DESCRIPTION':str,'COMMENTS':str})
     a_id = read_tickets['ASSIGNED_ID']
     assignees = []
     for assign_id in a_id:
@@ -175,6 +177,18 @@ def create_ticketdata():
         spiceworks_tickets = swd["tickets"]
         write_ticketcsv(spiceworks_tickets)
     return spiceworks_data.close()
+def clean_jira():
+    format_jira = pd.read_csv(tickets_csv, dtype={'DESCRIPTION':str,'COMMENTS':str})
+    #merge Description and Comments columns
+    format_jira["Description"] = format_jira["DESCRIPTION"] + format_jira["COMMENTS"]
+    # drop the two columns just merged and TICKET_NO
+    format_jira.drop(columns='DESCRIPTION', inplace=True)
+    format_jira.drop(columns='COMMENTS', inplace=True)
+    format_jira.drop(columns='TICKET_NO', inplace=True)
+    # Change all of the column names to be more JIRA friendly
+    #format_jira.rename(columns={'ASSIGNED_ID':'Assignee', 'CREATED_ID':'Reporter', 'STATUS':'Status', 'CREATED_AT':'Due Date','SUMMARY':'Summary'}, inplace=True)
+    #format_jira["Description"] = '"'+format_jira["Description"]+'"'
+    return format_jira.to_csv(tickets_csv, index=False)
 
 create_csvs(user_csv,
     'USERID,EMAIL,NAME,FULLNAME'
@@ -185,14 +199,21 @@ create_csvs(tickets_csv,
 create_ticketdata()
 assign_userids()
 
-format_jira = pd.read_csv(tickets_csv)
-#merge Description and Comments columns
-format_jira["Description"] = format_jira["DESCRIPTION"] + format_jira["COMMENTS"]
-# drop the two columns just merged and TICKET_NO
-format_jira.drop(columns='DESCRIPTION', inplace=True)
-format_jira.drop(columns='COMMENTS', inplace=True)
-format_jira.drop(columns='TICKET_NO', inplace=True)
-# Change all of the column names to be more JIRA friendly
-format_jira.rename(columns={'ASSIGNED_ID':'Assignee', 'CREATED_ID':'Reporter', 'STATUS':'Status', 'CREATED_AT':'Due Date','SUMMARY':'Summary'}, inplace=True)
-format_jira.to_csv(tickets_csv, index=False)
+#clean_jira()
+'''with open(tickets_csv,"r",encoding='utf-8') as source, open("final_output.csv","w",encoding='utf-8') as result:
+    rdr = csv.reader(source)
+    wtr = csv.writer(result)
+    for r in rdr:
+        wtr.writerow([r[0] + ' ' + r[1]] + r[2:])'''
 
+'''
+with open(tickets_csv,"r",encoding='utf-8') as f:
+    reader = csv.reader(f)
+    with open("final_output.csv","w",encoding='utf-8') as g:
+        writer = csv.writer(g)
+        for row in reader:
+            new_row = [' '.join([row[6], row[7]])] + row[8:]
+            writer.writerow(new_row)'''
+
+'''format_jira = pd.read_csv(tickets_csv, dtype={'DESCRIPTION':str,'COMMENTS':str})
+format_jira.join'''
