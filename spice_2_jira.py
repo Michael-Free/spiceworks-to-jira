@@ -29,14 +29,13 @@ REQUIREMENTS
 import json
 import os
 import pandas as pd
-import csv
+import re
 
 current_directory=os.getcwd()
 spiceworks_json=current_directory+'/exported_data.json'
 user_csv=current_directory+'/users.csv'
 tickets_csv=current_directory+'/tickets.csv'
-pd.set_option('display.max_columns', None)
-pd.set_option('display.max_colwidth', None)
+
 def create_csvs(csv_file,csv_headers):
     '''
     Create a CSV file with the filename provided and the headers provided
@@ -95,7 +94,7 @@ def write_ticketcsv(ticketdata):
                     "\n"+str(count_tickets)+
                     ","+str(swt["assigned_to"])+
                     ","+str(swt["created_by"])+
-                    ","+swt["created_at"]+
+                    ","+re.search(r'^[0-9]{4}-[0-9]{2}-[0-9]{2}', swt["created_at"]).group(0)+
                     ","+swt["status"]+
                     ","+str(swt["summary"]).replace(',','.').replace('\n',' ')+
                     ","+description_content.replace('\'','').replace('\"','')+
@@ -142,7 +141,7 @@ def format_comments(commentdata):
             repr(comment_dict['body']).replace(',','.')
                 .replace('\'','').replace('\"','').replace('\'','')
             )
-    return ticket_comments
+    return re.sub('@', ' at ', ticket_comments)
 
 def assign_userids():
     '''
