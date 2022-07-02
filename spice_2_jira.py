@@ -134,9 +134,9 @@ def format_comments(commentdata):
     for comments in range(len(commentdata)):
         comment_dict = commentdata[comments]
         ticket_comments = str(
-            "UPDATED AT: "+
+            "UPDATED AT "+
             comment_dict['updated_at']+
-            " BY: "+user_lookup(comment_dict['created_by'])+
+            " BY "+user_lookup(comment_dict['created_by'])+
             repr("\n").replace('\'','')+
             repr(comment_dict['body']).replace(',','.')
                 .replace('\'','').replace('\"','').replace('\'','')
