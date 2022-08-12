@@ -177,12 +177,12 @@ def create_ticketdata():
         write_ticketcsv(spiceworks_tickets)
     return spiceworks_data.close()
 
-create_csvs(user_csv,
-    'USERID,EMAIL,NAME,FULLNAME'
-    )
-create_csvs(tickets_csv,
-    'TICKET_NO,ASSIGNED_ID,CREATED_ID,CREATED_AT,STATUS,SUMMARY,DESCRIPTION,COMMENTS'
-    )
-create_ticketdata()
-assign_userids()
-
+if __name__ == "__main__":
+    create_csvs(user_csv,
+        'USERID,EMAIL,NAME,FULLNAME'
+        )
+    create_csvs(tickets_csv,
+        'TICKET_NO,ASSIGNED_ID,CREATED_ID,CREATED_AT,STATUS,SUMMARY,DESCRIPTION,COMMENTS'
+        )
+    create_ticketdata()
+    assign_userids()
