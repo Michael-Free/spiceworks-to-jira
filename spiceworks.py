@@ -55,7 +55,7 @@ def create_user_table(spiceworks_json, user_csvfile):
 def search_user_table():
     return
 
-def create_ticket_table(spiceworks_json):
+def create_ticket_table(spiceworks_json, ticket_csvfile):
     def strip_html_tags(ticket_object):
         s = MLStripper()
         s.feed(ticket_object)
@@ -85,36 +85,47 @@ def create_ticket_table(spiceworks_json):
                             ","+str(ticket_info["created_by"])+
                             ","+ticket_info["created_at"]+
                             ","+ticket_info["closed_at"]+
+                            ","+"CLOSED"+
                             ","+ticket_info["summary"]+
                             # need summary here of ticket
                             ","+strip_html_tags(ticket_info["description"])+
                             ","+str(parse_comments(ticket_info["Comments"]))
                             )
-                            #print(ticket_with_comments)                          
+                            write_to_csv(ticket_with_comments, ticket_csvfile)
                         else:
                             # tickets with no comments
-                            ticket_no_comments = "no comment"
-                            print(ticket_no_comments)
+                            ticket_no_comments = (str(ticket_info["assigned_to"])+
+                            ","+str(ticket_info["created_by"])+
+                            ","+ticket_info["created_at"]+
+                            ","+ticket_info["closed_at"]+
+                            ","+"CLOSED"+
+                            ","+ticket_info["summary"]+
+                            ","+strip_html_tags(ticket_info["description"])+
+                            ","+"NOCOMMENTS"
+                            )
+                            write_to_csv(ticket_no_comments, ticket_csvfile)
                     else:
                         # tickets with no assignees
                         ticket_no_assignee = (str("NOASSIGNEE")+
                             ","+str(ticket_info["created_by"])+
                             ","+ticket_info["created_at"]+
                             ","+ticket_info["closed_at"]+
+                            ","+"CLOSED"+
                             ","+ticket_info["summary"]+
                             ","+strip_html_tags(ticket_info["description"])+
                             ","+str(parse_comments(ticket_info["Comments"]))
                             )
-                        #print(ticket_no_assignee)
+                        write_to_csv(ticket_no_assignee, ticket_csvfile)
                 else:
                     #if no description, print keys
                     nodesc="nodesc"
-                    #print(ticket_info)
+                    print(ticket_info)
                     #input()
             else:
-                print("ticket is open") #print(ticket_info)
+                ticketopen="open ticket"
+                #print("ticket is open") #print(ticket_info)
 
     #return
 
 if __name__ == "__main__":
-    create_ticket_table(os.getcwd()+'/exported_data.json')
+    create_ticket_table(os.getcwd()+'/exported_data.json', os.getcwd()+'/tickets.csv')

@@ -43,9 +43,9 @@ def open_csvdir():
 
         if Path(tickets_csv).is_file():
             os.remove(tickets_csv)
-            write_csv(tickets_csv, "TICKET_NO,ASSIGNED_ID,CREATED_ID,CREATED_AT,STATUS,SUMMARY,DESCRIPTION,COMMENTS")
+            write_csv(tickets_csv, "ASSIGNED_ID,CREATED_ID,CREATED_AT,CLOSED_AT,STATUS,SUMMARY,DESCRIPTION,COMMENTS")
         else:
-            write_csv(tickets_csv, "TICKET_NO,ASSIGNED_ID,CREATED_ID,CREATED_AT,STATUS,SUMMARY,DESCRIPTION,COMMENTS")
+            write_csv(tickets_csv, "ASSIGNED_ID,CREATED_ID,CREATED_AT,CLOSED_AT,STATUS,SUMMARY,DESCRIPTION,COMMENTS")
         csv_button.set("CSV Files Created!")
     
     csv_button.set("loading...")
