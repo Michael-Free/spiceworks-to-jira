@@ -2,7 +2,6 @@ import json
 import os
 from io import StringIO
 from html.parser import HTMLParser
-from collections import defaultdict
 class MLStripper(HTMLParser):
     def __init__(self):
         super().__init__()
@@ -86,6 +85,7 @@ def create_ticket_table(spiceworks_json):
                             ","+str(ticket_info["created_by"])+
                             ","+ticket_info["created_at"]+
                             ","+ticket_info["closed_at"]+
+                            ","+ticket_info["summary"]+
                             # need summary here of ticket
                             ","+strip_html_tags(ticket_info["description"])+
                             ","+str(parse_comments(ticket_info["Comments"]))
@@ -93,19 +93,28 @@ def create_ticket_table(spiceworks_json):
                             #print(ticket_with_comments)                          
                         else:
                             # tickets with no comments
-                            ticket_no_comments = ticket_info
+                            ticket_no_comments = "no comment"
                             print(ticket_no_comments)
                     else:
                         # tickets with no assignees
-                        print(ticket_info)
-                        input()
+                        ticket_no_assignee = (str("NOASSIGNEE")+
+                            ","+str(ticket_info["created_by"])+
+                            ","+ticket_info["created_at"]+
+                            ","+ticket_info["closed_at"]+
+                            ","+ticket_info["summary"]+
+                            ","+strip_html_tags(ticket_info["description"])+
+                            ","+str(parse_comments(ticket_info["Comments"]))
+                            )
+                        #print(ticket_no_assignee)
                 else:
                     #if no description, print keys
-                    print("NO DESCRIPTION!")
-            #print(ticket_info)
+                    nodesc="nodesc"
+                    #print(ticket_info)
+                    #input()
+            else:
+                print("ticket is open") #print(ticket_info)
 
     #return
 
 if __name__ == "__main__":
-    print("test")
     create_ticket_table(os.getcwd()+'/exported_data.json')
