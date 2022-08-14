@@ -117,10 +117,17 @@ def create_ticket_table(spiceworks_json, ticket_csvfile):
                             )
                         write_to_csv(ticket_no_assignee, ticket_csvfile)
                 else:
-                    #if no description, print keys
-                    nodesc="nodesc"
-                    print(ticket_info)
-                    #input()
+                    ticket_no_description = (
+                        str(ticket_info["assigned_to"])+
+                        ","+str(ticket_info["created_by"])+
+                        ","+ticket_info["created_at"]+
+                        ","+ticket_info["closed_at"]+
+                        ","+"CLOSED"+
+                        ","+ticket_info["summary"]+
+                        ","+"(no description)"+
+                        ","+str(parse_comments(ticket_info["Comments"]))
+                    )
+                    write_to_csv(ticket_no_description, ticket_csvfile)
             else:
                 ticketopen="open ticket"
                 #print("ticket is open") #print(ticket_info)
