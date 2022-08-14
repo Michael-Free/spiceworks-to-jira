@@ -2,6 +2,7 @@ import json
 import os
 from io import StringIO
 from html.parser import HTMLParser
+from collections import defaultdict
 class MLStripper(HTMLParser):
     def __init__(self):
         super().__init__()
@@ -62,16 +63,14 @@ def create_ticket_table(spiceworks_json):
         return repr(s.get_data())
     
     def parse_comments(comment_list):
-        if comment_list is not None:
-            print(comment_list)
-        # get length of list
-        #print(len(comment_list))
-        # for each item in list
-        #for comment_items in comment_list:
-        #    print(comment_items)
-        ## print keys
-        #return comment_list.keys()
-        
+        comments_made = {}
+        comment_index = 0
+        for comment_content in comment_list:
+            comment_index += 1
+            comments_made['comment'+str(comment_index)] = comment_content["body"]
+            comments_made['created_at'] = comment_content["created_at"]
+        return comments_made
+
     #ticket_data = json.load(spiceworks_json)
     with open(spiceworks_json, "r", encoding="utf-8") as read_tickets:
         ticket_data = json.load(read_tickets)
@@ -81,17 +80,25 @@ def create_ticket_table(spiceworks_json):
                 # if key description exists
                 if "description" in ticket_info:
                     if "assigned_to" in ticket_info:
-
-                        print(str(ticket_info["assigned_to"])+
-                        ","+str(ticket_info["created_by"])+
-                        ","+ticket_info["created_at"]+
-                        ","+ticket_info["closed_at"]+
-                        ","+strip_html_tags(ticket_info["description"])+
-                        ","#+parse_comments(ticket_info["Comments"])
-                        )
-                        #print(ticket_info)
+                        # if comments exist
+                        if "Comments" in ticket_info:
+                            ticket_with_comments = (str(ticket_info["assigned_to"])+
+                            ","+str(ticket_info["created_by"])+
+                            ","+ticket_info["created_at"]+
+                            ","+ticket_info["closed_at"]+
+                            # need summary here of ticket
+                            ","+strip_html_tags(ticket_info["description"])+
+                            ","+str(parse_comments(ticket_info["Comments"]))
+                            )
+                            #print(ticket_with_comments)                          
+                        else:
+                            # tickets with no comments
+                            ticket_no_comments = ticket_info
+                            print(ticket_no_comments)
                     else:
-                        print("NO ASSIGNEE!")
+                        # tickets with no assignees
+                        print(ticket_info)
+                        input()
                 else:
                     #if no description, print keys
                     print("NO DESCRIPTION!")
