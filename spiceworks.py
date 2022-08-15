@@ -14,6 +14,11 @@ class MLStripper(HTMLParser):
     def get_data(self):
         return self.text.getvalue()
 
+def strip_html_tags(ticket_object):
+    s = MLStripper()
+    s.feed(ticket_object)
+    return repr(s.get_data())
+
 def write_to_csv(csv_data, csv_file):
     with open(csv_file, "a+", encoding="utf-8") as write_data:
         write_data.write(csv_data)
@@ -56,10 +61,7 @@ def search_user_table():
     return
 
 def create_ticket_table(spiceworks_json, ticket_csvfile):
-    def strip_html_tags(ticket_object):
-        s = MLStripper()
-        s.feed(ticket_object)
-        return repr(s.get_data())
+
     
     def parse_comments(comment_list):
         comments_made = {}
@@ -69,6 +71,9 @@ def create_ticket_table(spiceworks_json, ticket_csvfile):
             comments_made['comment'+str(comment_index)] = comment_content["body"]
             comments_made['created_at'] = comment_content["created_at"]
         return comments_made
+    
+    def ticket_review(ticket_data):
+        return
 
     #ticket_data = json.load(spiceworks_json)
     with open(spiceworks_json, "r", encoding="utf-8") as read_tickets:
@@ -105,7 +110,6 @@ def create_ticket_table(spiceworks_json, ticket_csvfile):
                             )
                             write_to_csv(ticket_no_comments, ticket_csvfile)
                     else:
-                        # tickets with no assignees
                         ticket_no_assignee = (str("NOASSIGNEE")+
                             ","+str(ticket_info["created_by"])+
                             ","+ticket_info["created_at"]+
@@ -129,10 +133,17 @@ def create_ticket_table(spiceworks_json, ticket_csvfile):
                     )
                     write_to_csv(ticket_no_description, ticket_csvfile)
             else:
-                ticketopen="open ticket"
-                #print("ticket is open") #print(ticket_info)
+                #print(str(ticket_info["assigned_to"])+
+                #","+ticket_info["created_by"]
+                #)
+                try:
+                    print(ticket_info["assigned_to"])
+                except:
+                    print(ticket_info)
+                input()
 
     #return
+
 
 if __name__ == "__main__":
     create_ticket_table(os.getcwd()+'/exported_data.json', os.getcwd()+'/tickets.csv')
