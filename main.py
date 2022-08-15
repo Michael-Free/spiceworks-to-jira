@@ -5,7 +5,7 @@ import tkinter as tk
 from PIL import Image, ImageTk
 from pathlib import Path
 from tkinter.filedialog import askopenfile, askdirectory
-from spiceworks import create_user_table
+from spiceworks import create_user_table, create_ticket_table
 
 json_data = ''
 csv_data = ''
@@ -58,15 +58,14 @@ def user_tables():
     user_table_button.set("loading...")
     create_user_table(json_data, csv_data+'/users.csv')
     user_table_button.set("User Table Created!")
-    #return
 
-
+def ticket_tables():
+    return
 
 root = tk.Tk()
 
 canvas = tk.Canvas(root, width=600, height=300, bg='white')
 canvas.grid(columnspan=3)
-
 #logo
 logo = Image.open('spice2jira-logo.png')
 logo = ImageTk.PhotoImage(logo)
@@ -79,8 +78,10 @@ json_filelabel = tk.Label(root, text="Choose a JSON File")
 json_filelabel.grid(column=0, row=1)
 csv_outputlabel = tk.Label(root, text="Choose CSV Directory")
 csv_outputlabel.grid(column=0, row=2)
-user_outputlabel = tk.Label(root, text="Create User Tables")
+user_outputlabel = tk.Label(root, text="Create User Table")
 user_outputlabel.grid(column=0, row=3)
+ticket_outputlabel = tk.Label(root, text="Create Ticket Table")
+ticket_outputlabel.grid(column=0, row=4)
 
 #buttons
 json_button = tk.StringVar()
@@ -95,12 +96,12 @@ csv_btn.grid(column=2, row=2)
 
 user_table_button = tk.StringVar()
 user_table_btn = tk.Button(root, textvariable=user_table_button, command=lambda:user_tables())
-user_table_button.set("Create Table")
+user_table_button.set("Create User Table")
 user_table_btn.grid(column=2,row=3) 
 
-#ticket_table_button = tk.StringVar()
-#ticket_table_btn = tk.Button(root, textvariable=ticket_table_button, command=lambda:open_csvdir())
-#ticket_table_button.set("Create Table")
-#ticket_table_btn.grid(column=2,row=3)
+ticket_table_button = tk.StringVar()
+ticket_table_btn = tk.Button(root, textvariable=ticket_table_button, command=lambda:open_csvdir())
+ticket_table_button.set("Create Ticket Table")
+ticket_table_btn.grid(column=2,row=4)
 
 root.mainloop()

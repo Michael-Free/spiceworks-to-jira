@@ -1,5 +1,7 @@
 '''
 spiceworks
+parse out commas in summary and descriptions!
+if not quote them out
 '''
 import json
 import os
@@ -33,9 +35,9 @@ def strip_html_tags(ticket_object):
     '''
     strip
     '''
-    s = MLStripper()
-    s.feed(ticket_object)
-    return repr(s.get_data())
+    strip_html = MLStripper()
+    strip_html.feed(ticket_object)
+    return repr(strip_html.get_data())
 
 def write_to_csv(csv_data, csv_file):
     '''
@@ -109,57 +111,56 @@ def create_ticket_table(spiceworks_json, ticket_csvfile):
         '''
         ticket review
         '''
-        if ticket_data["status"] == "closed":
-            if "description" in ticket_data:
-                if "assigned_to" in ticket_data:
-                    if "Comments" in ticket_data:
-                        ticket_with_comments = (
-                        "\n"+str(ticket_data["assigned_to"])+
-                        ","+str(ticket_data["created_by"])+
-                        ","+ticket_data["created_at"]+
-                        ","+ticket_data["closed_at"]+
-                        ","+"CLOSED"+
-                        ","+ticket_data["summary"]+
-                        ","+strip_html_tags(ticket_data["description"])+
-                        ","+str(parse_comments(ticket_data["Comments"]))
-                        )
-                        write_to_csv(ticket_with_comments, ticket_csvfile)
-                    else:
-                        ticket_no_comments = (
-                        "\n"+str(ticket_data["assigned_to"])+
-                        ","+str(ticket_data["created_by"])+
-                        ","+ticket_data["created_at"]+
-                        ","+ticket_data["closed_at"]+
-                        ","+"CLOSED"+
-                        ","+ticket_data["summary"]+
-                        ","+strip_html_tags(ticket_data["description"])+
-                        ","+"NOCOMMENTS"
-                        )
-                        write_to_csv(ticket_no_comments, ticket_csvfile)
-                else:
-                    ticket_no_assignee = (
-                        "\n"+str("NOASSIGNEE")+
-                        ","+str(ticket_data["created_by"])+
-                        ","+ticket_data["created_at"]+
-                        ","+ticket_data["closed_at"]+
-                        ","+"CLOSED"+
-                        ","+ticket_data["summary"]+
-                        ","+strip_html_tags(ticket_data["description"])+
-                        ","+str(parse_comments(ticket_data["Comments"]))
-                        )
-                    write_to_csv(ticket_no_assignee, ticket_csvfile)
-            else:
-                ticket_no_description = (
+        if "description" in ticket_data:
+            if "assigned_to" in ticket_data:
+                if "Comments" in ticket_data:
+                    ticket_with_comments = (
                     "\n"+str(ticket_data["assigned_to"])+
                     ","+str(ticket_data["created_by"])+
                     ","+ticket_data["created_at"]+
                     ","+ticket_data["closed_at"]+
                     ","+"CLOSED"+
                     ","+ticket_data["summary"]+
-                    ","+"(no description)"+
+                    ","+strip_html_tags(ticket_data["description"])+
                     ","+str(parse_comments(ticket_data["Comments"]))
-                )
-                write_to_csv(ticket_no_description, ticket_csvfile)
+                    )
+                    write_to_csv(ticket_with_comments, ticket_csvfile)
+                else:
+                    ticket_no_comments = (
+                    "\n"+str(ticket_data["assigned_to"])+
+                    ","+str(ticket_data["created_by"])+
+                    ","+ticket_data["created_at"]+
+                    ","+ticket_data["closed_at"]+
+                    ","+"CLOSED"+
+                    ","+ticket_data["summary"]+
+                    ","+strip_html_tags(ticket_data["description"])+
+                    ","+"NOCOMMENTS"
+                    )
+                    write_to_csv(ticket_no_comments, ticket_csvfile)
+            else:
+                ticket_no_assignee = (
+                    "\n"+str("NOASSIGNEE")+
+                    ","+str(ticket_data["created_by"])+
+                    ","+ticket_data["created_at"]+
+                    ","+ticket_data["closed_at"]+
+                    ","+"CLOSED"+
+                    ","+ticket_data["summary"]+
+                    ","+strip_html_tags(ticket_data["description"])+
+                    ","+str(parse_comments(ticket_data["Comments"]))
+                    )
+                write_to_csv(ticket_no_assignee, ticket_csvfile)
+        else:
+            ticket_no_description = (
+                "\n"+str(ticket_data["assigned_to"])+
+                ","+str(ticket_data["created_by"])+
+                ","+ticket_data["created_at"]+
+                ","+ticket_data["closed_at"]+
+                ","+"CLOSED"+
+                ","+ticket_data["summary"]+
+                ","+"(no description)"+
+                ","+str(parse_comments(ticket_data["Comments"]))
+            )
+            write_to_csv(ticket_no_description, ticket_csvfile)
 
     with open(spiceworks_json, "r", encoding="utf-8") as read_tickets:
         ticket_data = json.load(read_tickets)
