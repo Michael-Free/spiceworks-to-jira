@@ -37,7 +37,7 @@ def strip_html_tags(ticket_object):
     '''
     strip_html = MLStripper()
     strip_html.feed(ticket_object)
-    return repr(strip_html.get_data())
+    return repr(strip_html.get_data().replace("'","’"))
 
 def write_to_csv(csv_data, csv_file):
     '''
@@ -104,10 +104,12 @@ def create_ticket_table(spiceworks_json, ticket_csvfile):
         for comment_content in comment_list:
             comment_index += 1
             comments_made['comment'+str(comment_index)] = comment_content["body"]
-            comments_made['created_at'] = comment_content["created_at"]
+        #Iterate through each key in dict.(comments_made)
+        # strip html in each comment
+        # return every comment in 1 line, with carriage return escape chars
         return comments_made
 
-    def ticket_review(ticket_data):
+    def ticket_review(ticket_data, ticket_status, ticket_statustime): #will need to pass OPEN/CLOSED var... and blank var
         '''
         ticket review
         '''
@@ -118,8 +120,8 @@ def create_ticket_table(spiceworks_json, ticket_csvfile):
                     "\n"+str(ticket_data["assigned_to"])+
                     ","+str(ticket_data["created_by"])+
                     ","+ticket_data["created_at"]+
-                    ","+ticket_data["closed_at"]+
-                    ","+"CLOSED"+
+                    ","+ticket_statustime+
+                    ","+ticket_status+
                     ","+ticket_data["summary"]+
                     ","+strip_html_tags(ticket_data["description"])+
                     ","+str(parse_comments(ticket_data["Comments"]))
@@ -130,8 +132,8 @@ def create_ticket_table(spiceworks_json, ticket_csvfile):
                     "\n"+str(ticket_data["assigned_to"])+
                     ","+str(ticket_data["created_by"])+
                     ","+ticket_data["created_at"]+
-                    ","+ticket_data["closed_at"]+
-                    ","+"CLOSED"+
+                    ","+ticket_statustime+
+                    ","+ticket_status+
                     ","+ticket_data["summary"]+
                     ","+strip_html_tags(ticket_data["description"])+
                     ","+"NOCOMMENTS"
@@ -142,8 +144,8 @@ def create_ticket_table(spiceworks_json, ticket_csvfile):
                     "\n"+str("NOASSIGNEE")+
                     ","+str(ticket_data["created_by"])+
                     ","+ticket_data["created_at"]+
-                    ","+ticket_data["closed_at"]+
-                    ","+"CLOSED"+
+                    ","+ticket_statustime+
+                    ","+ticket_status+
                     ","+ticket_data["summary"]+
                     ","+strip_html_tags(ticket_data["description"])+
                     ","+str(parse_comments(ticket_data["Comments"]))
@@ -154,8 +156,8 @@ def create_ticket_table(spiceworks_json, ticket_csvfile):
                 "\n"+str(ticket_data["assigned_to"])+
                 ","+str(ticket_data["created_by"])+
                 ","+ticket_data["created_at"]+
-                ","+ticket_data["closed_at"]+
-                ","+"CLOSED"+
+                ","+ticket_statustime+
+                ","+ticket_status+
                 ","+ticket_data["summary"]+
                 ","+"(no description)"+
                 ","+str(parse_comments(ticket_data["Comments"]))
@@ -167,11 +169,11 @@ def create_ticket_table(spiceworks_json, ticket_csvfile):
         ticket_list = ticket_data["tickets"]
         for ticket_info in ticket_list:
             if ticket_info["status"] == "closed":
-                ticket_review(ticket_info)
+                ticket_review(ticket_info, "CLOSED", ticket_info["closed_at"])  #pass on open closed var and open time var
             elif ticket_info["status"] == "open":
-                ticket_review(ticket_info)
+                ticket_review(ticket_info, "OPEN", " ")
             else:
-                print(ticket_info)
-
+                #print(ticket_info)
+                ts=1
 if __name__ == "__main__":
     create_ticket_table(os.getcwd()+'/exported_data.json', os.getcwd()+'/tickets.csv')

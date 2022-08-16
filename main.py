@@ -1,4 +1,6 @@
-
+'''
+spiceworks 2 jira
+'''
 import json
 import os
 import tkinter as tk
@@ -60,7 +62,9 @@ def user_tables():
     user_table_button.set("User Table Created!")
 
 def ticket_tables():
-    return
+    ticket_table_button.set("loading...")
+    create_ticket_table(json_data, csv_data+'/tickets.csv')
+    ticket_table_button.set("Ticket Table Created!")
 
 root = tk.Tk()
 
@@ -100,7 +104,7 @@ user_table_button.set("Create User Table")
 user_table_btn.grid(column=2,row=3) 
 
 ticket_table_button = tk.StringVar()
-ticket_table_btn = tk.Button(root, textvariable=ticket_table_button, command=lambda:open_csvdir())
+ticket_table_btn = tk.Button(root, textvariable=ticket_table_button, command=lambda:ticket_tables())
 ticket_table_button.set("Create Ticket Table")
 ticket_table_btn.grid(column=2,row=4)
 
