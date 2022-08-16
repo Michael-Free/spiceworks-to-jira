@@ -5,6 +5,8 @@ if not quote them out
 '''
 import json
 import os
+import pandas as pd
+import csv
 from io import StringIO
 from html.parser import HTMLParser
 class MLStripper(HTMLParser):
@@ -85,11 +87,16 @@ def create_user_table(spiceworks_json, user_csvfile):
                 )
                 write_to_csv(csv_info, user_csvfile)
 
-def search_user_table():
+def search_user_table(users_csvfile, user_idnumber):
     '''
     search
     '''
-    return
+    with open(users_csvfile,"r", encoding="utf-8") as user_lookup:
+        file = csv.DictReader(user_lookup, delimiter=",")
+        for col in file:
+            if col["USERID"] == user_idnumber:
+                user_email = col["EMAIL"]
+    return user_email
 
 def create_ticket_table(spiceworks_json, ticket_csvfile):
     '''
@@ -103,11 +110,11 @@ def create_ticket_table(spiceworks_json, ticket_csvfile):
         comment_index = 0
         for comment_content in comment_list:
             comment_index += 1
-            comments_made['comment'+str(comment_index)] = comment_content["body"]
-        #Iterate through each key in dict.(comments_made)
-        # strip html in each comment
-        # return every comment in 1 line, with carriage return escape chars
-        return comments_made
+            comments_made['comment'+str(comment_index)] = strip_html_tags(comment_content["body"])
+        all_comments = ""
+        for each_comment in comments_made:
+            all_comments += str(comments_made[each_comment]+repr("\n")).replace("'","")
+        return all_comments
 
     def ticket_review(ticket_data, ticket_status, ticket_statustime): #will need to pass OPEN/CLOSED var... and blank var
         '''
@@ -119,48 +126,52 @@ def create_ticket_table(spiceworks_json, ticket_csvfile):
                     ticket_with_comments = (
                     "\n"+str(ticket_data["assigned_to"])+
                     ","+str(ticket_data["created_by"])+
-                    ","+ticket_data["created_at"]+
-                    ","+ticket_statustime+
-                    ","+ticket_status+
-                    ","+ticket_data["summary"]+
-                    ","+strip_html_tags(ticket_data["description"])+
-                    ","+str(parse_comments(ticket_data["Comments"]))
+                    ",\""+ticket_data["created_at"]+
+                    "\",\""+ticket_statustime+
+                    "\",\""+ticket_status+
+                    "\",\""+ticket_data["summary"]+
+                    "\",\""+strip_html_tags(ticket_data["description"])+
+                    "\",\""+parse_comments(ticket_data["Comments"])+
+                    "\""
                     )
                     write_to_csv(ticket_with_comments, ticket_csvfile)
                 else:
                     ticket_no_comments = (
                     "\n"+str(ticket_data["assigned_to"])+
                     ","+str(ticket_data["created_by"])+
-                    ","+ticket_data["created_at"]+
-                    ","+ticket_statustime+
-                    ","+ticket_status+
-                    ","+ticket_data["summary"]+
-                    ","+strip_html_tags(ticket_data["description"])+
-                    ","+"NOCOMMENTS"
+                    ",\""+ticket_data["created_at"]+
+                    "\",\""+ticket_statustime+
+                    "\",\""+ticket_status+
+                    "\",\""+ticket_data["summary"]+
+                    "\",\""+strip_html_tags(ticket_data["description"])+
+                    "\",\""+"NOCOMMENTS"+
+                    "\""
                     )
                     write_to_csv(ticket_no_comments, ticket_csvfile)
             else:
                 ticket_no_assignee = (
                     "\n"+str("NOASSIGNEE")+
                     ","+str(ticket_data["created_by"])+
-                    ","+ticket_data["created_at"]+
-                    ","+ticket_statustime+
-                    ","+ticket_status+
-                    ","+ticket_data["summary"]+
-                    ","+strip_html_tags(ticket_data["description"])+
-                    ","+str(parse_comments(ticket_data["Comments"]))
+                    ",\""+ticket_data["created_at"]+
+                    "\",\""+ticket_statustime+
+                    "\",\""+ticket_status+
+                    "\",\""+ticket_data["summary"]+
+                    "\",\""+strip_html_tags(ticket_data["description"])+
+                    "\",\""+parse_comments(ticket_data["Comments"])+
+                    "\""
                     )
                 write_to_csv(ticket_no_assignee, ticket_csvfile)
         else:
             ticket_no_description = (
                 "\n"+str(ticket_data["assigned_to"])+
                 ","+str(ticket_data["created_by"])+
-                ","+ticket_data["created_at"]+
-                ","+ticket_statustime+
-                ","+ticket_status+
-                ","+ticket_data["summary"]+
-                ","+"(no description)"+
-                ","+str(parse_comments(ticket_data["Comments"]))
+                ",\""+ticket_data["created_at"]+
+                "\",\""+ticket_statustime+
+                "\",\""+ticket_status+
+                "\",\""+ticket_data["summary"]+
+                "\",\""+"(no description)"+
+                "\",\""+parse_comments(ticket_data["Comments"])+
+                "\""
             )
             write_to_csv(ticket_no_description, ticket_csvfile)
 
@@ -169,11 +180,12 @@ def create_ticket_table(spiceworks_json, ticket_csvfile):
         ticket_list = ticket_data["tickets"]
         for ticket_info in ticket_list:
             if ticket_info["status"] == "closed":
-                ticket_review(ticket_info, "CLOSED", ticket_info["closed_at"])  #pass on open closed var and open time var
+                ticket_review(ticket_info, "CLOSED", ticket_info["closed_at"])
             elif ticket_info["status"] == "open":
                 ticket_review(ticket_info, "OPEN", " ")
             else:
-                #print(ticket_info)
-                ts=1
+                print(ticket_info)
+
 if __name__ == "__main__":
-    create_ticket_table(os.getcwd()+'/exported_data.json', os.getcwd()+'/tickets.csv')
+    #create_ticket_table(os.getcwd()+'/exported_data.json', os.getcwd()+'/tickets.csv')
+    print(search_user_table(os.getcwd()+'/users.csv', "231"))
