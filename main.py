@@ -13,6 +13,11 @@ json_data = ''
 csv_data = ''
 
 def open_jsonfile():
+    '''
+    Opens a JSON file
+    Verifies that it's JSON format
+    (it doesn't verify it's correct spiceworks format)
+    '''
     global json_data
     json_button.set("loading...")
     json_file = askopenfile(parent=root, title='Choose Spiceworks JSON Datafile:', filetypes = (('json files','*.json'),('all files','*.*')))
@@ -27,13 +32,22 @@ def open_jsonfile():
             json_button.set("Bad JSON Format!")
 
 def open_csvdir():
+    '''
+    Choose the directory where csv files will be written
+    '''
     global csv_data
     def write_csv(file_path, headers):
+        '''
+        Writes data to a csv file
+        '''
         with open(file_path,'w',encoding='utf-8') as csv_write:
             csv_write.write(headers)
             csv_write.close()
 
     def create_csvfiles(file_path):
+        '''
+        creates csv files with headers needed later on
+        '''
         users_csv = file_path+"/users.csv"
         tickets_csv = file_path+"/tickets.csv"
 
@@ -57,11 +71,17 @@ def open_csvdir():
         csv_data = csv_dir
 
 def user_tables():
+    '''
+    calls create_user_table and populates the users.csv file
+    '''
     user_table_button.set("loading...")
     create_user_table(json_data, csv_data+'/users.csv')
     user_table_button.set("User Table Created!")
 
 def ticket_tables():
+    '''
+    calls create_user_table and populates the tickets.csv file
+    '''
     ticket_table_button.set("loading...")
     create_ticket_table(json_data, csv_data+'/tickets.csv')
     ticket_table_button.set("Ticket Table Created!")
@@ -86,6 +106,8 @@ user_outputlabel = tk.Label(root, text="Create User Table")
 user_outputlabel.grid(column=0, row=3)
 ticket_outputlabel = tk.Label(root, text="Create Ticket Table")
 ticket_outputlabel.grid(column=0, row=4)
+change_user_id_email = tk.Label(root, text="Change User IDs to Emails")
+change_user_id_email.grid(column=0, row=5)
 
 #buttons
 json_button = tk.StringVar()
@@ -107,5 +129,10 @@ ticket_table_button = tk.StringVar()
 ticket_table_btn = tk.Button(root, textvariable=ticket_table_button, command=lambda:ticket_tables())
 ticket_table_button.set("Create Ticket Table")
 ticket_table_btn.grid(column=2,row=4)
+
+change_userid_button = tk.StringVar()
+change_userid_btn = tk.Button(root, textvariable=change_userid_button, command=lambda:ticket_tables())##change function here
+change_userid_button.set("Change User IDs")
+change_userid_btn.grid(column=2, row=5)
 
 root.mainloop()

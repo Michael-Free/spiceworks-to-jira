@@ -5,7 +5,6 @@ if not quote them out
 '''
 import json
 import os
-import pandas as pd
 import csv
 from io import StringIO
 from html.parser import HTMLParser
@@ -92,10 +91,11 @@ def search_user_table(users_csvfile, user_idnumber):
     search
     '''
     with open(users_csvfile,"r", encoding="utf-8") as user_lookup:
-        file = csv.DictReader(user_lookup, delimiter=",")
-        for col in file:
-            if col["USERID"] == user_idnumber:
-                user_email = col["EMAIL"]
+        user_table = csv.DictReader(user_lookup, delimiter=",")
+        for table_column in user_table:
+            if table_column["USERID"] == user_idnumber:
+                user_email = table_column["EMAIL"]
+    user_lookup.close()
     return user_email
 
 def create_ticket_table(spiceworks_json, ticket_csvfile):
@@ -116,7 +116,7 @@ def create_ticket_table(spiceworks_json, ticket_csvfile):
             all_comments += str(comments_made[each_comment]+repr("\n")).replace("'","")
         return all_comments
 
-    def ticket_review(ticket_data, ticket_status, ticket_statustime): #will need to pass OPEN/CLOSED var... and blank var
+    def ticket_review(ticket_data, ticket_status, ticket_statustime):
         '''
         ticket review
         '''
@@ -188,4 +188,4 @@ def create_ticket_table(spiceworks_json, ticket_csvfile):
 
 if __name__ == "__main__":
     #create_ticket_table(os.getcwd()+'/exported_data.json', os.getcwd()+'/tickets.csv')
-    print(search_user_table(os.getcwd()+'/users.csv', "231"))
+    print(search_user_table(os.getcwd()+'/users.csv', "200"))
