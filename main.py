@@ -8,6 +8,7 @@ from PIL import Image, ImageTk
 from pathlib import Path
 from tkinter.filedialog import askopenfile, askdirectory
 from spiceworks import create_user_table, create_ticket_table
+from jira import map_user_ids
 
 json_data = ''
 csv_data = ''
