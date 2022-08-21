@@ -87,9 +87,15 @@ def ticket_tables():
     create_ticket_table(json_data, csv_data+'/tickets.csv')
     ticket_table_button.set("Ticket Table Created!")
 
+def assign_userids():
+    change_userid_button.set("parsing...")
+    map_user_ids(csv_data+'/users.csv',csv_data+'/tickets.csv', csv_data)
+    change_userid_button.set("Assigned User IDs!")
+    return
+
 root = tk.Tk()
 
-canvas = tk.Canvas(root, width=600, height=300, bg='white')
+canvas = tk.Canvas(root, width=600, height=200, bg='white')
 canvas.grid(columnspan=3)
 #logo
 logo = Image.open('spice2jira-logo.png')
@@ -132,7 +138,7 @@ ticket_table_button.set("Create Ticket Table")
 ticket_table_btn.grid(column=2,row=4)
 
 change_userid_button = tk.StringVar()
-change_userid_btn = tk.Button(root, textvariable=change_userid_button, command=lambda:ticket_tables())##change function here
+change_userid_btn = tk.Button(root, textvariable=change_userid_button, command=lambda:assign_userids())
 change_userid_button.set("Change User IDs")
 change_userid_btn.grid(column=2, row=5)
 
