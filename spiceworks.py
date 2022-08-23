@@ -177,4 +177,5 @@ def create_ticket_table(spiceworks_json, ticket_csvfile):
 
 if __name__ == "__main__":
     #create_ticket_table(os.getcwd()+'/exported_data.json', os.getcwd()+'/tickets.csv')
-    print(search_user_table(os.getcwd()+'/users.csv', "200"))
+    #print(search_user_table(os.getcwd()+'/users.csv', "200"))
+    print()

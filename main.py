@@ -1,14 +1,14 @@
 '''
 spiceworks 2 jira
 '''
-import json
 import os
+import json
 import tkinter as tk
-from PIL import Image, ImageTk
 from pathlib import Path
+from PIL import Image, ImageTk
+from jira import map_user_ids
 from tkinter.filedialog import askopenfile, askdirectory
 from spiceworks import create_user_table, create_ticket_table
-from jira import map_user_ids
 
 json_data = ''
 csv_data = ''

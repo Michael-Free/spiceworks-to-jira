@@ -1,5 +1,9 @@
 '''
 prepping for jira import
+
+to do:
+
+2 - reading escape characters and having multi-line csvs
 '''
 import csv
 import os
@@ -57,15 +61,29 @@ def map_user_ids(user_csvfile, ticket_csvfile, csv_directory):
     os.remove(ticket_csvfile)
     os.rename(new_tickets_csv, ticket_csvfile)
 
-def merge_comments():
+def merge_comments(ticket_csvfile, csv_directory):
     '''
     JIRA doesn't support importing of comments
     https://community.atlassian.com/t5/Jira-Service-Management/How-to-import-Comments-amp-Attachments-using-the-CSV-Importer/qaq-p/1921044
     
     Add comments to ticket description
     '''
-    return
+    with open(ticket_csvfile, "r", encoding="utf-8") as old_ticketfile:
+        reader = csv.DictReader(old_ticketfile)
+        with open(csv_directory+"/output.csv", "w", encoding="utf-8") as new_ticketfile:
+            writer = csv.writer(new_ticketfile)
+            for row in reader:
+                print(
+                    "\n\""+row["ASSIGNED_ID"]+"\""
+                    ",\""+row["CREATED_ID"]+"\""
+                    ",\""+row["CREATED_AT"]+"\""
+                    ",\""+row["CLOSED_AT"]+"\""
+                    ",\""+row["STATUS"]+"\""
+                    ",\""+row["SUMMARY"]+"\""
+                    ",\""+row["DESCRIPTION"]+repr("\n").strip("\'")
+                    +str(row["COMMENTS"])+"\""
+                    )
 
 if __name__ == "__main__":
     print()
-    map_user_ids(os.getcwd()+'/users.csv', os.getcwd()+'/tickets.csv', os.getcwd())
+    merge_comments(os.getcwd()+'/tickets.csv', os.getcwd())
