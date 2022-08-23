@@ -111,16 +111,26 @@ def format_csvfile(ticket_csvfile):
     '''
     with open(ticket_csvfile, "r", encoding="utf-8") as new_tix:
         reader_csv = csv.DictReader(new_tix)
-        count_me = 0
+        count_parsed = 0
+        count_problems = 0
         for csv_line in reader_csv:
             if isinstance(csv_line[" Description"], str):
                 decoded_string = bytes(csv_line[" Description"], "utf-8").decode("unicode_escape").replace("\"","")
-                count_me += 1
+                #
+                print(
+                    "\n"+csv_line["Summary"]+", "
+                    ""+csv_line[" Assignee"]+", "
+                    ""+csv_line[" Reporter"]+", "
+                    ""+csv_line[" Status"]+", "
+                    "\""+decoded_string+"\""
+                )
+                count_parsed += 1
             else:
                 print(csv_line)
-    print(count_me)
+                count_problems += 1
+    #print(count_parsed)
 
 if __name__ == "__main__":
     print()
     #merge_comments(os.getcwd()+'/tickets.csv', os.getcwd())
-    #format_csvfile(os.getcwd()+'/tickets.csv')
+    format_csvfile(os.getcwd()+'/tickets.csv')
