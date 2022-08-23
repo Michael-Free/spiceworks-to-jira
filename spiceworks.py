@@ -1,7 +1,8 @@
 '''
-spiceworks
-parse out commas in summary and descriptions!
-if not quote them out
+
+░█▀▀▀█ █▀▀█ ─▀─ █▀▀ █▀▀ ░█──░█ █▀▀█ █▀▀█ █─█ █▀▀ 
+─▀▀▀▄▄ █──█ ▀█▀ █── █▀▀ ░█░█░█ █──█ █▄▄▀ █▀▄ ▀▀█ 
+░█▄▄▄█ █▀▀▀ ▀▀▀ ▀▀▀ ▀▀▀ ░█▄▀▄█ ▀▀▀▀ ▀─▀▀ ▀─▀ ▀▀▀
 '''
 import json
 import os

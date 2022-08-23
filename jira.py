@@ -1,9 +1,7 @@
 '''
-prepping for jira import
-
-to do:
-
-2 - reading escape characters and having multi-line csvs
+░░░▒█ ░▀░ █▀▀█ █▀▀█ ▒█▀▀█ █▀▀ ▀█░█▀ 
+░▄░▒█ ▀█▀ █▄▄▀ █▄▄█ ▒█░░░ ▀▀█ ░█▄█░ 
+▒█▄▄█ ▀▀▀ ▀░▀▀ ▀░░▀ ▒█▄▄█ ▀▀▀ ░░▀░░
 '''
 import csv
 import os
