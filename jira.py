@@ -68,7 +68,6 @@ def map_user_ids(user_csvfile, ticket_csvfile, csv_directory):
                     )
             write_newtickets.close()
     ticket_lookup.close()
-    # delete the old file and rename it to the new one
     os.remove(ticket_csvfile)
     os.rename(new_tickets_csv, ticket_csvfile)
 
@@ -115,7 +114,6 @@ def format_csvfile(ticket_csvfile):
         for csv_line in reader_csv:
             if isinstance(csv_line[" Description"], str):
                 decoded_string = bytes(csv_line[" Description"], "utf-8").decode("unicode_escape").replace("\"","")
-                #print(decoded_string)
                 count_me += 1
             else:
                 print(csv_line)
@@ -124,4 +122,4 @@ def format_csvfile(ticket_csvfile):
 if __name__ == "__main__":
     print()
     #merge_comments(os.getcwd()+'/tickets.csv', os.getcwd())
-    format_csvfile(os.getcwd()+'/tickets.csv')
+    #format_csvfile(os.getcwd()+'/tickets.csv')

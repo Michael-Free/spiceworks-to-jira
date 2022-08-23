@@ -79,7 +79,6 @@ def create_user_table(spiceworks_json, user_csvfile):
         user_list = user_data["users"]
         for user_info in user_list:
             if user_info["role"] == "admin":
-                # append to csv function:
                 csv_info = ("\n"+
                     str(user_info["import_id"])+
                     ","+user_info["email"]+
