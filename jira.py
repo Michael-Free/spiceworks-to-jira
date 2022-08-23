@@ -67,22 +67,23 @@ def merge_comments(ticket_csvfile, csv_directory):
     https://community.atlassian.com/t5/Jira-Service-Management/How-to-import-Comments-amp-Attachments-using-the-CSV-Importer/qaq-p/1921044
     
     Add comments to ticket description
+    Do some reformatting for the JIRA import
     '''
     with open(ticket_csvfile, "r", encoding="utf-8") as old_ticketfile:
         reader = csv.DictReader(old_ticketfile)
         with open(csv_directory+"/output.csv", "w", encoding="utf-8") as new_ticketfile:
-            writer = csv.writer(new_ticketfile)
-            for row in reader:
-                print(
-                    "\n\""+row["ASSIGNED_ID"]+"\""
-                    ",\""+row["CREATED_ID"]+"\""
-                    ",\""+row["CREATED_AT"]+"\""
-                    ",\""+row["CLOSED_AT"]+"\""
-                    ",\""+row["STATUS"]+"\""
-                    ",\""+row["SUMMARY"]+"\""
-                    ",\""+row["DESCRIPTION"]+repr("\n").strip("\'")
-                    +str(row["COMMENTS"])+"\""
-                    )
+            new_ticketfile.write("Summary, Assignee, Reporter, Status, Description")
+            new_ticketfile.close()
+            with open(csv_directory+"/output.csv", "a", encoding="utf-8") as populate_ticketfile:
+                for row in reader:
+                    populate_ticketfile.write(
+                        "\n\""+row["SUMMARY"]+"\", "
+                        "\""+row["ASSIGNED_ID"]+"\", "
+                        "\""+row["CREATED_ID"]+"\", "
+                        "\""+row["STATUS"]+"\", "
+                        "\""+row["DESCRIPTION"]+repr("\n").strip("\'")
+                        +str(row["COMMENTS"])+"\""
+                )
 
 if __name__ == "__main__":
     print()
