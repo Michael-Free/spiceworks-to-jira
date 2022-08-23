@@ -15,7 +15,9 @@ import dateutil.parser
 
 def search_user_table(users_csvfile, user_idnumber):
     '''
-    search
+    Inputs:
+    Ouputs:
+    Summary:
     '''
     with open(users_csvfile,"r", encoding="utf-8") as user_lookup:
         user_email = ""
@@ -28,6 +30,9 @@ def search_user_table(users_csvfile, user_idnumber):
 
 def format_datetime(current_format):
     '''
+    Inputs:
+    Ouputs:
+    Summary:
     Format the date/time for JIRA
     '''
     if current_format == " ":
@@ -39,7 +44,9 @@ def format_datetime(current_format):
 
 def map_user_ids(user_csvfile, ticket_csvfile, csv_directory):
     '''
-    map user ids
+    Inputs:
+    Ouputs:
+    Summary: user ids
     '''
     with open(ticket_csvfile, "r", encoding="utf-8") as ticket_lookup:
         ticket_table = csv.DictReader(ticket_lookup, delimiter=",")
@@ -67,6 +74,10 @@ def map_user_ids(user_csvfile, ticket_csvfile, csv_directory):
 
 def merge_comments(ticket_csvfile, csv_directory):
     '''
+    Inputs:
+    Ouputs:
+    Summary:
+
     JIRA doesn't support importing of comments
     https://community.atlassian.com/t5/Jira-Service-Management/How-to-import-Comments-amp-Attachments-using-the-CSV-Importer/qaq-p/1921044
     
@@ -93,6 +104,9 @@ def merge_comments(ticket_csvfile, csv_directory):
 
 def format_csvfile(ticket_csvfile):
     '''
+    Inputs:
+    Ouputs:
+    Summary:
     format for jira
     '''
     with open(ticket_csvfile, "r", encoding="utf-8") as new_tix:

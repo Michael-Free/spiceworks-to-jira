@@ -16,11 +16,17 @@ from io import StringIO
 from html.parser import HTMLParser
 class MLStripper(HTMLParser):
     '''
+    Inputs:
+    Ouputs:
+    Summary:
+
     stripper class
     '''
     def __init__(self):
         '''
-        bs
+        Inputs:
+        Ouputs:
+        Summary:
         '''
         super().__init__()
         self.reset()
@@ -29,18 +35,24 @@ class MLStripper(HTMLParser):
         self.text = StringIO()
     def handle_data(self, d):
         '''
-        more bs
+        Inputs:
+        Ouputs:
+        Summary:
         '''
         self.text.write(d)
     def get_data(self):
         '''
-        best bs
+        Inputs:
+        Ouputs:
+        Summary:
         '''
         return self.text.getvalue()
 
 def strip_html_tags(ticket_object):
     '''
-    strip
+    Inputs:
+    Ouputs:
+    Summary:
     '''
     strip_html = MLStripper()
     strip_html.feed(ticket_object)
@@ -48,7 +60,9 @@ def strip_html_tags(ticket_object):
 
 def write_to_csv(csv_data, csv_file):
     '''
-    write
+    Inputs:
+    Ouputs:
+    Summary:
     '''
     with open(csv_file, "a+", encoding="utf-8") as write_data:
         write_data.write(csv_data)
@@ -56,7 +70,9 @@ def write_to_csv(csv_data, csv_file):
 
 def create_user_table(spiceworks_json, user_csvfile):
     '''
-    user table
+    Inputs:
+    Ouputs:
+    Summary:
     '''
     with open(spiceworks_json, 'r', encoding='utf-8') as read_users:
         user_data = json.load(read_users)
@@ -95,11 +111,15 @@ def create_user_table(spiceworks_json, user_csvfile):
 
 def create_ticket_table(spiceworks_json, ticket_csvfile):
     '''
-    ticket table
+    Inputs:
+    Ouputs:
+    Summary: table
     '''
     def parse_comments(comment_list):
         '''
-        parse
+        Inputs:
+        Ouputs:
+        Summary:
         '''
         comments_made = {}
         comment_index = 0
@@ -113,7 +133,9 @@ def create_ticket_table(spiceworks_json, ticket_csvfile):
 
     def ticket_review(ticket_data, ticket_status, ticket_statustime):
         '''
-        ticket review
+        Inputs:
+        Ouputs:
+        Summary: review
         '''
         if "description" in ticket_data:
             if "assigned_to" in ticket_data:

@@ -22,6 +22,10 @@ csv_data = ''
 
 def open_jsonfile():
     '''
+    Inputs:
+    Ouputs:
+    Summary:
+    
     Opens a JSON file
     Verifies that it's JSON format
     (it doesn't verify it's correct spiceworks format)
@@ -41,6 +45,10 @@ def open_jsonfile():
 
 def open_csvdir():
     '''
+    Inputs:
+    Ouputs:
+    Summary:
+
     Choose the directory where csv files will be written
     '''
     global csv_data
@@ -54,6 +62,9 @@ def open_csvdir():
 
     def create_csvfiles(file_path):
         '''
+        Inputs:
+        Ouputs:
+        Summary:
         creates csv files with headers needed later on
         '''
         users_csv = file_path+"/users.csv"
@@ -80,6 +91,10 @@ def open_csvdir():
 
 def user_tables():
     '''
+    Inputs:
+    Ouputs:
+    Summary:
+
     calls create_user_table and populates the users.csv file
     '''
     user_table_button.set("loading...")
@@ -88,6 +103,10 @@ def user_tables():
 
 def ticket_tables():
     '''
+    Inputs:
+    Ouputs:
+    Summary:
+
     calls create_user_table and populates the tickets.csv file
     '''
     ticket_table_button.set("loading...")
