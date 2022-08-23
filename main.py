@@ -1,5 +1,7 @@
 '''
-spiceworks 2 jira
+▒█▀▀▀█ █▀▀█ ░▀░ █▀▀ █▀▀ █▀█ ░░░▒█ ▀█▀ ▒█▀▀█ ░█▀▀█ 
+░▀▀▀▄▄ █░░█ ▀█▀ █░░ █▀▀ ░▄▀ ░▄░▒█ ▒█░ ▒█▄▄▀ ▒█▄▄█ 
+▒█▄▄▄█ █▀▀▀ ▀▀▀ ▀▀▀ ▀▀▀ █▄▄ ▒█▄▄█ ▄█▄ ▒█░▒█ ▒█░▒█
 '''
 import os
 import json
@@ -91,7 +93,6 @@ def assign_userids():
     change_userid_button.set("parsing...")
     map_user_ids(csv_data+'/users.csv',csv_data+'/tickets.csv', csv_data)
     change_userid_button.set("Assigned User IDs!")
-    return
 
 root = tk.Tk()
 

@@ -7,6 +7,7 @@ to do:
 '''
 import csv
 import os
+import codecs
 import dateutil.parser
 
 def search_user_table(users_csvfile, user_idnumber):
@@ -77,14 +78,30 @@ def merge_comments(ticket_csvfile, csv_directory):
             with open(csv_directory+"/output.csv", "a", encoding="utf-8") as populate_ticketfile:
                 for row in reader:
                     populate_ticketfile.write(
-                        "\n\""+row["SUMMARY"]+"\", "
-                        "\""+row["ASSIGNED_ID"]+"\", "
-                        "\""+row["CREATED_ID"]+"\", "
-                        "\""+row["STATUS"]+"\", "
-                        "\""+row["DESCRIPTION"]+repr("\n").strip("\'")
-                        +str(row["COMMENTS"])+"\""
+                        "\n"+row["SUMMARY"]+", "
+                        ""+row["ASSIGNED_ID"]+", "
+                        ""+row["CREATED_ID"]+", "
+                        ""+row["STATUS"]+", "
+                        ""+row["DESCRIPTION"]+repr("\n").strip("\'")
+                        +str(row["COMMENTS"])+""
                 )
+    os.remove(ticket_csvfile)
+    os.rename(csv_directory+"/output.csv", ticket_csvfile)
+
+def format_csvfile(ticket_csvfile):
+    with open(ticket_csvfile, "r", encoding="utf-8") as new_tix:
+        reader_csv = csv.DictReader(new_tix)
+        for csv_line in reader_csv:
+            #print(type(row[" Description"]))
+            if isinstance(csv_line[" Description"], str):
+                #print("good")
+                decoded_string = bytes(csv_line[" Description"], "utf-8").decode("unicode_escape").replace("\"","")
+                print(decoded_string)
+            else:
+                print(csv_line)
+                input()
 
 if __name__ == "__main__":
     print()
-    merge_comments(os.getcwd()+'/tickets.csv', os.getcwd())
+    #merge_comments(os.getcwd()+'/tickets.csv', os.getcwd())
+    format_csvfile(os.getcwd()+'/tickets.csv')
