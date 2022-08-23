@@ -72,10 +72,10 @@ def merge_comments(ticket_csvfile, csv_directory):
     '''
     with open(ticket_csvfile, "r", encoding="utf-8") as old_ticketfile:
         reader = csv.DictReader(old_ticketfile)
-        with open(csv_directory+"/output.csv", "w", encoding="utf-8") as new_ticketfile:
+        with open(csv_directory+"/new_tickets.csv", "w", encoding="utf-8") as new_ticketfile:
             new_ticketfile.write("Summary, Assignee, Reporter, Status, Description")
             new_ticketfile.close()
-            with open(csv_directory+"/output.csv", "a", encoding="utf-8") as populate_ticketfile:
+            with open(csv_directory+"/new_tickets.csv", "a", encoding="utf-8") as populate_ticketfile:
                 for row in reader:
                     populate_ticketfile.write(
                         "\n"+row["SUMMARY"]+", "
@@ -86,20 +86,23 @@ def merge_comments(ticket_csvfile, csv_directory):
                         +str(row["COMMENTS"])+""
                 )
     os.remove(ticket_csvfile)
-    os.rename(csv_directory+"/output.csv", ticket_csvfile)
+    os.rename(csv_directory+"/new_tickets.csv", ticket_csvfile)
 
 def format_csvfile(ticket_csvfile):
+    '''
+    format for jira
+    '''
     with open(ticket_csvfile, "r", encoding="utf-8") as new_tix:
         reader_csv = csv.DictReader(new_tix)
+        count_me = 0
         for csv_line in reader_csv:
-            #print(type(row[" Description"]))
             if isinstance(csv_line[" Description"], str):
-                #print("good")
                 decoded_string = bytes(csv_line[" Description"], "utf-8").decode("unicode_escape").replace("\"","")
-                print(decoded_string)
+                #print(decoded_string)
+                count_me += 1
             else:
                 print(csv_line)
-                input()
+    print(count_me)
 
 if __name__ == "__main__":
     print()
