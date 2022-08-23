@@ -2,6 +2,11 @@
 ▒█▀▀▀█ █▀▀█ ░▀░ █▀▀ █▀▀ █▀█ ░░░▒█ ▀█▀ ▒█▀▀█ ░█▀▀█ 
 ░▀▀▀▄▄ █░░█ ▀█▀ █░░ █▀▀ ░▄▀ ░▄░▒█ ▒█░ ▒█▄▄▀ ▒█▄▄█ 
 ▒█▄▄▄█ █▀▀▀ ▀▀▀ ▀▀▀ ▀▀▀ █▄▄ ▒█▄▄█ ▄█▄ ▒█░▒█ ▒█░▒█
+
+Filename:
+Created By:
+Summary:
+
 '''
 import os
 import json
@@ -119,27 +124,27 @@ change_user_id_email.grid(column=0, row=5)
 
 #buttons
 json_button = tk.StringVar()
-json_btn = tk.Button(root, textvariable=json_button, command=lambda:open_jsonfile())
+json_btn = tk.Button(root, textvariable=json_button, command=lambda:open_jsonfile(), width=15)
 json_button.set("Select JSON File")
 json_btn.grid(column=2, row=1)
 
 csv_button = tk.StringVar()
-csv_btn = tk.Button(root, textvariable=csv_button, command=lambda:open_csvdir())
+csv_btn = tk.Button(root, textvariable=csv_button, command=lambda:open_csvdir(), width=15)
 csv_button.set("Select CSV Dir")
 csv_btn.grid(column=2, row=2)
 
 user_table_button = tk.StringVar()
-user_table_btn = tk.Button(root, textvariable=user_table_button, command=lambda:user_tables())
+user_table_btn = tk.Button(root, textvariable=user_table_button, command=lambda:user_tables(), width=15)
 user_table_button.set("Create User Table")
 user_table_btn.grid(column=2,row=3) 
 
 ticket_table_button = tk.StringVar()
-ticket_table_btn = tk.Button(root, textvariable=ticket_table_button, command=lambda:ticket_tables())
+ticket_table_btn = tk.Button(root, textvariable=ticket_table_button, command=lambda:ticket_tables(), width=15)
 ticket_table_button.set("Create Ticket Table")
 ticket_table_btn.grid(column=2,row=4)
 
 change_userid_button = tk.StringVar()
-change_userid_btn = tk.Button(root, textvariable=change_userid_button, command=lambda:assign_userids())
+change_userid_btn = tk.Button(root, textvariable=change_userid_button, command=lambda:assign_userids(), width=15)
 change_userid_button.set("Change User IDs")
 change_userid_btn.grid(column=2, row=5)
 
