@@ -6,6 +6,7 @@
 Filename:
 Created By:
 Summary:
+To Dos:
 
 '''
 import os
@@ -25,7 +26,7 @@ def open_jsonfile():
     Inputs:
     Ouputs:
     Summary:
-    
+
     Opens a JSON file
     Verifies that it's JSON format
     (it doesn't verify it's correct spiceworks format)
