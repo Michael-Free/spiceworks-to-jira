@@ -120,11 +120,21 @@ def ticket_tables():
     ticket_table_button.set("Ticket Table Created!")
 
 def assign_userids():
+    '''
+    Inputs:
+    Outputs:
+    Summary:
+    '''
     change_userid_button.set("parsing...")
     map_user_ids(csv_data+'/users.csv',csv_data+'/tickets.csv', csv_data)
     change_userid_button.set("Assigned User IDs!")
 
 def merge_columns():
+    '''
+    Inputs:
+    Outputs:
+    Summary:
+    '''
     merge_comments_csv_button.set("merging...")
     merge_comments(csv_data+"/tickets.csv", csv_data)
     merge_comments_csv_button.set("Columns Merged!")
