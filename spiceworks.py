@@ -7,8 +7,13 @@
 Filename:
 Created By:
 Summary:
-To Dos:
+Description:
 
+To Dos:
+- proper code linting (9.0+/10 score)
+- docstring documentation
+- testing modules
+- exception handling
 '''
 import json
 import os

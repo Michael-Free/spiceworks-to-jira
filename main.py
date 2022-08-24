@@ -21,6 +21,7 @@ To Dos:
 - some proper testing
 - UI improvements??
 - exception handling (goes with testing)
+- arrange directory structure of repo
 '''
 import os
 import json
