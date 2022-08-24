@@ -3,12 +3,24 @@
 ░▀▀▀▄▄ █░░█ ▀█▀ █░░ █▀▀ ░▄▀ ░▄░▒█ ▒█░ ▒█▄▄▀ ▒█▄▄█ 
 ▒█▄▄▄█ █▀▀▀ ▀▀▀ ▀▀▀ ▀▀▀ █▄▄ ▒█▄▄█ ▄█▄ ▒█░▒█ ▒█░▒█
 
-Filename:
-Created By:
-Description:
-Summary:
-To Dos:
+Filename: main.py
 
+Created By: Michael Free
+
+Summary:
+GUI for prepping exported Spiceworks ticket data
+for importation to Jira Service Management.
+
+Description:
+
+
+To Dos:
+- Finalize Formatting for import to jira
+- Code Linting
+- Documentation in function docstrings
+- some proper testing
+- UI improvements??
+- exception handling (goes with testing)
 '''
 import os
 import json
@@ -138,10 +150,12 @@ def merge_columns():
     merge_comments_csv_button.set("merging...")
     merge_comments(csv_data+"/tickets.csv", csv_data)
     merge_comments_csv_button.set("Columns Merged!")
+
+def final_format():
     return
 
 root = tk.Tk()
-
+# set canvas size
 canvas = tk.Canvas(root, width=600, height=200, bg='white')
 canvas.grid(columnspan=3)
 
