@@ -1,6 +1,6 @@
 '''
-░░░▒█ ░▀░ █▀▀█ █▀▀█ ▒█▀▀█ █▀▀ ▀█░█▀ 
-░▄░▒█ ▀█▀ █▄▄▀ █▄▄█ ▒█░░░ ▀▀█ ░█▄█░ 
+░░░▒█ ░▀░ █▀▀█ █▀▀█ ▒█▀▀█ █▀▀ ▀█░█▀
+░▄░▒█ ▀█▀ █▄▄▀ █▄▄█ ▒█░░░ ▀▀█ ░█▄█░
 ▒█▄▄█ ▀▀▀ ▀░▀▀ ▀░░▀ ▒█▄▄█ ▀▀▀ ░░▀░░
 
 Filename: jira.py
@@ -69,18 +69,28 @@ def map_user_ids(user_csvfile, ticket_csvfile, csv_directory):
         ticket_table = csv.DictReader(ticket_lookup, delimiter=",")
         new_tickets_csv = str(csv_directory+"/new_tickets.csv")
         with open(new_tickets_csv, "w", encoding="utf-8") as new_tickets:
-            new_tickets.write("ASSIGNED_ID,CREATED_ID,CREATED_AT,CLOSED_AT,STATUS,SUMMARY,DESCRIPTION,COMMENTS")
+            new_tickets.write(
+                "ASSIGNED_ID,CREATED_ID,CREATED_AT,CLOSED_AT,STATUS,SUMMARY,DESCRIPTION,COMMENTS"
+                )
             new_tickets.close()
             with open(new_tickets_csv,"a", encoding="utf-8") as write_newtickets:
                 for table_column in ticket_table:
                     write_newtickets.write(
                         "\n\""+search_user_table(user_csvfile, table_column["ASSIGNED_ID"])+"\""+
                         ","+"\""+search_user_table(user_csvfile, table_column["CREATED_ID"])+"\""+
-                        ",\""+format_datetime(table_column["CREATED_AT"])+"\""+
-                        ",\""+format_datetime(table_column["CLOSED_AT"])+"\""+
+                        ",\""+format_datetime(
+                            table_column["CREATED_AT"]
+                            )+"\""+
+                        ",\""+format_datetime(
+                            table_column["CLOSED_AT"]
+                            )+"\""+
                         ",\""+table_column["STATUS"]+"\""+
-                        ",\""+str(table_column["SUMMARY"]).replace("\'","’").replace("\"","").replace(",","")+"\""+
-                        ",\""+str(table_column["DESCRIPTION"]).replace("\'","").replace(",","")+"\""+
+                        ",\""+str(
+                            table_column["SUMMARY"]
+                            ).replace("\'","’").replace("\"","").replace(",","")+"\""+
+                        ",\""+str(
+                            table_column["DESCRIPTION"]
+                            ).replace("\'","").replace(",","")+"\""+
                         ",\""+str(table_column["COMMENTS"]).replace(",","").replace("\'","")+"\""
                     )
             write_newtickets.close()
@@ -106,7 +116,7 @@ def merge_comments(ticket_csvfile, csv_directory):
         with open(csv_directory+"/new_tickets.csv", "w", encoding="utf-8") as new_ticketfile:
             new_ticketfile.write("Summary, Assignee, Reporter, Status, Description")
             new_ticketfile.close()
-            with open(csv_directory+"/new_tickets.csv", "a", encoding="utf-8") as populate_ticketfile:
+            with open(csv_directory+"/new_tickets.csv","a", encoding="utf-8") as populate_ticketfile:
                 for row in reader:
                     populate_ticketfile.write(
                         "\n"+row["SUMMARY"]+", "
@@ -140,7 +150,9 @@ def format_csvfile(ticket_csvfile, csv_directory):
         with open(csv_directory+"/new_tickets.csv", "a", encoding="utf-8") as formatted_ticket:
             for csv_line in reader_csv:
                 if isinstance(csv_line[" Description"], str):
-                    decoded_string = bytes(csv_line[" Description"], "utf-8").decode("unicode_escape").replace("\"","")
+                    decoded_string = bytes(
+                        csv_line[" Description"], "utf-8"
+                        ).decode("unicode_escape").replace("\"","")
                     formatted_ticket.write(
                         "\n"+csv_line["Summary"]+", "
                         ""+csv_line[" Assignee"]+", "
@@ -149,9 +161,9 @@ def format_csvfile(ticket_csvfile, csv_directory):
                         "\""+decoded_string+"\""
                     )
                     count_parsed += 1
-            else:
-                print(csv_line)
-                count_problems += 1
+                else:
+                    print(csv_line)
+                    count_problems += 1
         formatted_ticket.close()
     new_tix.close()
     os.remove(ticket_csvfile)
