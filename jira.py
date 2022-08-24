@@ -107,6 +107,7 @@ def format_csvfile(ticket_csvfile, csv_directory):
     Ouputs:
     Summary:
     format for jira
+    https://support.atlassian.com/jira-service-management-cloud/docs/import-a-csv-file-into-insight/
     '''
     with open(ticket_csvfile, "r", encoding="utf-8") as new_tix:
         reader_csv = csv.DictReader(new_tix)
