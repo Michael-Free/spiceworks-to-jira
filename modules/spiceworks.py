@@ -25,17 +25,13 @@ from io import StringIO
 from html.parser import HTMLParser
 class MLStripper(HTMLParser):
     '''
-    Inputs:
-    Outputs:
-    Summary:
-
-    stripper class
+    - Markup langage stripper
+    - out puts only text between tags
     '''
     def __init__(self):
         '''
-        Inputs:
-        Outputs:
-        Summary:
+        - initialize class
+        - works through text streams
         '''
         super().__init__()
         self.reset()
@@ -44,24 +40,18 @@ class MLStripper(HTMLParser):
         self.text = StringIO()
     def handle_data(self, data):
         '''
-        Inputs:
-        Outputs:
-        Summary:
+        - writes data out from txt stream
         '''
         self.text.write(data)
     def get_data(self):
         '''
-        Inputs:
-        Outputs:
-        Summary:
+        - gets the value of the data
         '''
         return self.text.getvalue()
 
 def strip_html_tags(ticket_object):
     '''
-    Inputs:
-    Outputs:
-    Summary:
+    - strips out HTML in ticket data
     '''
     strip_html = MLStripper()
     strip_html.feed(ticket_object)
@@ -69,9 +59,8 @@ def strip_html_tags(ticket_object):
 
 def write_to_csv(csv_data, csv_file):
     '''
-    Inputs:
-    Outputs:
-    Summary:
+    - receives ticket data and csv file name
+    - writes data to the csv file provided
     '''
     with open(csv_file, "a+", encoding="utf-8") as write_data:
         write_data.write(csv_data)
@@ -79,9 +68,10 @@ def write_to_csv(csv_data, csv_file):
 
 def create_user_table(spiceworks_json, user_csvfile):
     '''
-    Inputs:
-    Outputs:
-    Summary:
+    - receives the spiceworks json file
+    - receives the user csv file
+    - parses through the spiceworks json file
+    - outputs user data to csv file 
     '''
     with open(spiceworks_json, 'r', encoding='utf-8') as read_users:
         user_data = json.load(read_users)
@@ -119,15 +109,14 @@ def create_user_table(spiceworks_json, user_csvfile):
 
 def create_ticket_table(spiceworks_json, ticket_csvfile):
     '''
-    Inputs:
-    Outputs:
-    Summary: table
+    - receives the spiceworks json file
+    - populates the ticket csv file provided
     '''
     def parse_comments(comment_list):
         '''
-        Inputs:
-        Outputs:
-        Summary:
+        - receives a list of comments in each ticket
+        - parses through each one
+        - returns all comments as a single object
         '''
         comments_made = {}
         comment_index = 0
