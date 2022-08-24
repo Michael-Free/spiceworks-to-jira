@@ -15,7 +15,7 @@ import json
 import tkinter as tk
 from pathlib import Path
 from PIL import Image, ImageTk
-from jira import map_user_ids
+from jira import map_user_ids, merge_comments
 from tkinter.filedialog import askopenfile, askdirectory
 from spiceworks import create_user_table, create_ticket_table
 
@@ -126,6 +126,8 @@ def assign_userids():
 
 def merge_columns():
     merge_comments_csv_button.set("merging...")
+    merge_comments(csv_data+"/tickets.csv", csv_data)
+    merge_comments_csv_button.set("Columns Merged!")
     return
 
 root = tk.Tk()
