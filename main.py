@@ -17,9 +17,7 @@ Description:
 To Dos:
 - Finalize Formatting for import to jira
 - Code Linting
-- Documentation in function docstrings
 - some proper testing
-- UI improvements??
 - exception handling (goes with testing)
 - arrange directory structure of repo
 '''

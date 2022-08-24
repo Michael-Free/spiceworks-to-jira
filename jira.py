@@ -26,9 +26,9 @@ import dateutil.parser
 
 def search_user_table(users_csvfile, user_idnumber):
     '''
-    Inputs:
-    Outputs:
-    Summary:
+    - receives users.csv file location and user ID number
+    - searches the user table for the ID number
+    - returns the associated email with the ID number
     '''
     with open(users_csvfile,"r", encoding="utf-8") as user_lookup:
         user_email = ""
@@ -41,10 +41,9 @@ def search_user_table(users_csvfile, user_idnumber):
 
 def format_datetime(current_format):
     '''
-    Inputs:
-    Outputs:
-    Summary:
-    Format the date/time for JIRA
+    - receives a date/timestamp
+    - interprets spiceworks format
+    - returns jira-friendly format
     '''
     if current_format == " ":
         new_format = " "
