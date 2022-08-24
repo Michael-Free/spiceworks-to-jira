@@ -28,7 +28,7 @@ import json
 import tkinter as tk
 from pathlib import Path
 from PIL import Image, ImageTk
-from jira import map_user_ids, merge_comments
+from jira import map_user_ids, merge_comments, format_csvfile
 from tkinter.filedialog import askopenfile, askdirectory
 from spiceworks import create_user_table, create_ticket_table
 
@@ -186,6 +186,9 @@ change_user_id_email.grid(column=0, row=5)
 merge_comments_csv = tk.Label(root, text="Merge Desc. & Comments")
 merge_comments_csv.grid(column=0, row=6)
 
+final_format_csv = tk.Label(root, text="Interpret Escape Characters")
+final_format_csv.grid(column=0, row=7)
+
 #buttons
 json_button = tk.StringVar()
 json_btn = tk.Button(root, textvariable=json_button, command=lambda:open_jsonfile(), width=15)
@@ -216,5 +219,10 @@ merge_comments_csv_button = tk.StringVar()
 merge_comments_csv_btn = tk.Button(root, textvariable=merge_comments_csv_button, command=lambda:merge_columns(), width=15)
 merge_comments_csv_button.set("Merge Columns")
 merge_comments_csv_btn.grid(column=2, row=6)
+
+final_format_csv_button = tk.StringVar()
+final_format_csv_btn = tk.Button(root, textvariable=final_format_csv_button, command=lambda:final_format(), width=15)
+final_format_csv_button.set("Final Formatting")
+final_format_csv_btn.grid(column=2, row=7)
 
 root.mainloop()
