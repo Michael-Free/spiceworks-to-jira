@@ -153,6 +153,8 @@ def merge_columns():
     merge_comments_csv_button.set("Columns Merged!")
 
 def final_format():
+    final_format_csv_button.set("formatting...")
+    final_format_csv_button.set("Formatted!")
     return
 
 root = tk.Tk()
