@@ -146,6 +146,9 @@ def format_csvfile(ticket_csvfile, csv_directory):
         reader_csv = csv.DictReader(new_tix)
         count_parsed = 0
         count_problems = 0
+        with open(csv_directory+"/new_tickets.csv", "w", encoding="utf-8") as new_ticketfile:
+            new_ticketfile.write("Summary, Assignee, Reporter, Status, Description")
+            new_ticketfile.close()
         with open(csv_directory+"/new_tickets.csv", "a", encoding="utf-8") as formatted_ticket:
             for csv_line in reader_csv:
                 if isinstance(csv_line[" Description"], str):
