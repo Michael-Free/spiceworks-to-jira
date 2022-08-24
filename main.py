@@ -16,7 +16,6 @@ Description:
 
 To Dos:
 - Finalize Formatting for import to jira
-- Code Linting
 - some proper testing
 - exception handling (goes with testing)
 '''

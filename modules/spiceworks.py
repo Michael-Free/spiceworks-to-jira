@@ -1,7 +1,7 @@
 '''
 
-░█▀▀▀█ █▀▀█ ─▀─ █▀▀ █▀▀ ░█──░█ █▀▀█ █▀▀█ █─█ █▀▀ 
-─▀▀▀▄▄ █──█ ▀█▀ █── █▀▀ ░█░█░█ █──█ █▄▄▀ █▀▄ ▀▀█ 
+░█▀▀▀█ █▀▀█ ─▀─ █▀▀ █▀▀ ░█──░█ █▀▀█ █▀▀█ █─█ █▀▀
+─▀▀▀▄▄ █──█ ▀█▀ █── █▀▀ ░█░█░█ █──█ █▄▄▀ █▀▄ ▀▀█
 ░█▄▄▄█ █▀▀▀ ▀▀▀ ▀▀▀ ▀▀▀ ░█▄▀▄█ ▀▀▀▀ ▀─▀▀ ▀─▀ ▀▀▀
 
 Filename: spiceworks.py
@@ -21,8 +21,6 @@ To Dos:
 - exception handling
 '''
 import json
-import os
-import csv
 from io import StringIO
 from html.parser import HTMLParser
 class MLStripper(HTMLParser):
@@ -44,13 +42,13 @@ class MLStripper(HTMLParser):
         self.strict = False
         self.convert_charrefs= True
         self.text = StringIO()
-    def handle_data(self, d):
+    def handle_data(self, data):
         '''
         Inputs:
         Outputs:
         Summary:
         '''
-        self.text.write(d)
+        self.text.write(data)
     def get_data(self):
         '''
         Inputs:
@@ -138,7 +136,9 @@ def create_ticket_table(spiceworks_json, ticket_csvfile):
             comments_made['comment'+str(comment_index)] = strip_html_tags(comment_content["body"])
         all_comments = ""
         for each_comment in comments_made:
-            all_comments += str(comments_made[each_comment]+repr("\n")).replace("\'","").replace("\"","").replace(",","")
+            all_comments += str(
+                comments_made[each_comment]+repr("\n")
+                ).replace("\'","").replace("\"","").replace(",","")
         return all_comments
 
     def ticket_review(ticket_data, ticket_status, ticket_statustime):
