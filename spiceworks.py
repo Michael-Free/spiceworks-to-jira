@@ -4,9 +4,14 @@
 ─▀▀▀▄▄ █──█ ▀█▀ █── █▀▀ ░█░█░█ █──█ █▄▄▀ █▀▄ ▀▀█ 
 ░█▄▄▄█ █▀▀▀ ▀▀▀ ▀▀▀ ▀▀▀ ░█▄▀▄█ ▀▀▀▀ ▀─▀▀ ▀─▀ ▀▀▀
 
-Filename:
-Created By:
+Filename: spiceworks.py
+
+Created By: Michael Free
+
 Summary:
+Simple module for parsing through exported json
+files from spiceworks exports.
+
 Description:
 
 To Dos:
