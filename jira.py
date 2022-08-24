@@ -11,7 +11,6 @@ To Dos:
 '''
 import csv
 import os
-import codecs
 import dateutil.parser
 
 def search_user_table(users_csvfile, user_idnumber):
@@ -102,7 +101,7 @@ def merge_comments(ticket_csvfile, csv_directory):
     os.remove(ticket_csvfile)
     os.rename(csv_directory+"/new_tickets.csv", ticket_csvfile)
 
-def format_csvfile(ticket_csvfile):
+def format_csvfile(ticket_csvfile, csv_directory):
     '''
     Inputs:
     Ouputs:
@@ -113,24 +112,27 @@ def format_csvfile(ticket_csvfile):
         reader_csv = csv.DictReader(new_tix)
         count_parsed = 0
         count_problems = 0
-        for csv_line in reader_csv:
-            if isinstance(csv_line[" Description"], str):
-                decoded_string = bytes(csv_line[" Description"], "utf-8").decode("unicode_escape").replace("\"","")
-                #
-                print(
-                    "\n"+csv_line["Summary"]+", "
-                    ""+csv_line[" Assignee"]+", "
-                    ""+csv_line[" Reporter"]+", "
-                    ""+csv_line[" Status"]+", "
-                    "\""+decoded_string+"\""
-                )
-                count_parsed += 1
+        with open(csv_directory+"/new_tickets.csv", "a", encoding="utf-8") as formatted_ticket:
+            for csv_line in reader_csv:
+                if isinstance(csv_line[" Description"], str):
+                    decoded_string = bytes(csv_line[" Description"], "utf-8").decode("unicode_escape").replace("\"","")
+                    formatted_ticket.write(
+                        "\n"+csv_line["Summary"]+", "
+                        ""+csv_line[" Assignee"]+", "
+                        ""+csv_line[" Reporter"]+", "
+                        ""+csv_line[" Status"]+", "
+                        "\""+decoded_string+"\""
+                    )
+                    count_parsed += 1
             else:
                 print(csv_line)
                 count_problems += 1
-    #print(count_parsed)
+        formatted_ticket.close()
+    new_tix.close()
+    os.remove(ticket_csvfile)
+    os.rename(csv_directory+"/new_tickets.csv", ticket_csvfile)
 
 if __name__ == "__main__":
     print()
-    #merge_comments(os.getcwd()+'/tickets.csv', os.getcwd())
-    format_csvfile(os.getcwd()+'/tickets.csv')
+    merge_comments(os.getcwd()+'/tickets.csv', os.getcwd())
+    format_csvfile(os.getcwd()+'/tickets.csv', os.getcwd())
