@@ -19,6 +19,7 @@ To Dos:
 - software tests
 - exception handling
 - merging comments: remove final \n escape char
+- logging un parseable text.
 '''
 import csv
 import os
