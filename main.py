@@ -37,13 +37,9 @@ csv_data = ''
 
 def open_jsonfile():
     '''
-    Inputs:
-    Outputs:
-    Summary:
-
-    Opens a JSON file
-    Verifies that it's JSON format
-    (it doesn't verify it's correct spiceworks format)
+    - Open a json file
+    - Verify Json Format
+    - Doesn't verify if it's s.w. format
     '''
     global json_data
     json_button.set("loading...")
@@ -60,19 +56,15 @@ def open_jsonfile():
 
 def open_csvdir():
     '''
-    Inputs:
-    Outputs:
-    Summary:
-
-    Choose the directory where csv files will be written
+    - Select a directory
+    - CSV files for users and tickets created
+    - headers added to both CSV files.
     '''
     global csv_data
     def write_csv(file_path, headers):
         '''
-        Inputs:
-        Outputs:
-        Summary:
-        Writes data to a csv file
+        - receives path of file, and data
+        - write data to the file
         '''
         with open(file_path,'w',encoding='utf-8') as csv_write:
             csv_write.write(headers)
@@ -80,10 +72,8 @@ def open_csvdir():
 
     def create_csvfiles(file_path):
         '''
-        Inputs:
-        Outputs:
-        Summary:
-        creates csv files with headers needed later on
+        - creates a csv file on button press
+        - users.csv and tickets.csv
         '''
         csv_button.set("loading...")
 
@@ -110,11 +100,8 @@ def open_csvdir():
 
 def user_tables():
     '''
-    Inputs:
-    Outputs:
-    Summary:
-
-    calls create_user_table and populates the users.csv file
+    - populates the user table on button click
+    - uses inputs from previous button presses
     '''
     user_table_button.set("loading...")
     create_user_table(json_data, csv_data+'/users.csv')
@@ -122,11 +109,8 @@ def user_tables():
 
 def ticket_tables():
     '''
-    Inputs:
-    Outputs:
-    Summary:
-
-    calls create_user_table and populates the tickets.csv file
+    - populates the tickets table on button click
+    - uses inputs from previous button presses
     '''
     ticket_table_button.set("loading...")
     create_ticket_table(json_data, csv_data+'/tickets.csv')
@@ -134,9 +118,9 @@ def ticket_tables():
 
 def assign_userids():
     '''
-    Inputs:
-    Outputs:
-    Summary:
+    - on button press, user id numbers are looked up
+    - email addresses are referenced to the user id
+    - populates that data in the ticket table
     '''
     change_userid_button.set("parsing...")
     map_user_ids(csv_data+'/users.csv',csv_data+'/tickets.csv', csv_data)
@@ -144,18 +128,23 @@ def assign_userids():
 
 def merge_columns():
     '''
-    Inputs:
-    Outputs:
-    Summary:
+    - merges the description and comments column on button click
+    - due to comment imports not supported for jira import
+    - see jira.py for more information
     '''
     merge_comments_csv_button.set("merging...")
     merge_comments(csv_data+"/tickets.csv", csv_data)
     merge_comments_csv_button.set("Columns Merged!")
 
 def final_format():
+    '''
+    - prepares tickets.csv for final formatting
+    - interprets escape characters literally
+    - see jira.py for mor information
+    '''
     final_format_csv_button.set("formatting...")
+    format_csvfile(csv_data+"/tickets.csv", csv_data)
     final_format_csv_button.set("Formatted!")
-    return
 
 root = tk.Tk()
 # set canvas size
