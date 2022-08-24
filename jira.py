@@ -5,6 +5,7 @@
 
 Filename:
 Created By:
+Description:
 Summary:
 To Dos:
 
@@ -16,7 +17,7 @@ import dateutil.parser
 def search_user_table(users_csvfile, user_idnumber):
     '''
     Inputs:
-    Ouputs:
+    Outputs:
     Summary:
     '''
     with open(users_csvfile,"r", encoding="utf-8") as user_lookup:
@@ -31,7 +32,7 @@ def search_user_table(users_csvfile, user_idnumber):
 def format_datetime(current_format):
     '''
     Inputs:
-    Ouputs:
+    Outputs:
     Summary:
     Format the date/time for JIRA
     '''
@@ -45,7 +46,7 @@ def format_datetime(current_format):
 def map_user_ids(user_csvfile, ticket_csvfile, csv_directory):
     '''
     Inputs:
-    Ouputs:
+    Outputs:
     Summary: user ids
     '''
     with open(ticket_csvfile, "r", encoding="utf-8") as ticket_lookup:
@@ -74,7 +75,7 @@ def map_user_ids(user_csvfile, ticket_csvfile, csv_directory):
 def merge_comments(ticket_csvfile, csv_directory):
     '''
     Inputs:
-    Ouputs:
+    Outputs:
     Summary:
 
     JIRA doesn't support importing of comments
@@ -104,7 +105,7 @@ def merge_comments(ticket_csvfile, csv_directory):
 def format_csvfile(ticket_csvfile, csv_directory):
     '''
     Inputs:
-    Ouputs:
+    Outputs:
     Summary:
     format for jira
     https://support.atlassian.com/jira-service-management-cloud/docs/import-a-csv-file-into-insight/

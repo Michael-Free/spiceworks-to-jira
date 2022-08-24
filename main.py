@@ -5,6 +5,7 @@
 
 Filename:
 Created By:
+Description:
 Summary:
 To Dos:
 
@@ -24,7 +25,7 @@ csv_data = ''
 def open_jsonfile():
     '''
     Inputs:
-    Ouputs:
+    Outputs:
     Summary:
 
     Opens a JSON file
@@ -47,7 +48,7 @@ def open_jsonfile():
 def open_csvdir():
     '''
     Inputs:
-    Ouputs:
+    Outputs:
     Summary:
 
     Choose the directory where csv files will be written
@@ -55,6 +56,9 @@ def open_csvdir():
     global csv_data
     def write_csv(file_path, headers):
         '''
+        Inputs:
+        Outputs:
+        Summary:
         Writes data to a csv file
         '''
         with open(file_path,'w',encoding='utf-8') as csv_write:
@@ -64,7 +68,7 @@ def open_csvdir():
     def create_csvfiles(file_path):
         '''
         Inputs:
-        Ouputs:
+        Outputs:
         Summary:
         creates csv files with headers needed later on
         '''
@@ -93,7 +97,7 @@ def open_csvdir():
 def user_tables():
     '''
     Inputs:
-    Ouputs:
+    Outputs:
     Summary:
 
     calls create_user_table and populates the users.csv file
@@ -105,7 +109,7 @@ def user_tables():
 def ticket_tables():
     '''
     Inputs:
-    Ouputs:
+    Outputs:
     Summary:
 
     calls create_user_table and populates the tickets.csv file
@@ -146,7 +150,7 @@ ticket_outputlabel.grid(column=0, row=4)
 change_user_id_email = tk.Label(root, text="Change User IDs to Emails")
 change_user_id_email.grid(column=0, row=5)
 
-merge_comments_csv = tk.Label(root, text="Merge Description & Comments")
+merge_comments_csv = tk.Label(root, text="Merge Desc. & Comments")
 merge_comments_csv.grid(column=0, row=6)
 
 #buttons
@@ -174,5 +178,10 @@ change_userid_button = tk.StringVar()
 change_userid_btn = tk.Button(root, textvariable=change_userid_button, command=lambda:assign_userids(), width=15)
 change_userid_button.set("Change User IDs")
 change_userid_btn.grid(column=2, row=5)
+
+merge_comments_csv_button = tk.StringVar()
+merge_comments_csv_btn = tk.Button(root, textvariable=change_userid_button, command=lambda:assign_userids(), width=15)
+merge_comments_csv_button.set("Change User IDs")
+merge_comments_csv_btn.grid(column=2, row=6)
 
 root.mainloop()

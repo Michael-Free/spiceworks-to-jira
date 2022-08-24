@@ -18,7 +18,7 @@ from html.parser import HTMLParser
 class MLStripper(HTMLParser):
     '''
     Inputs:
-    Ouputs:
+    Outputs:
     Summary:
 
     stripper class
@@ -26,7 +26,7 @@ class MLStripper(HTMLParser):
     def __init__(self):
         '''
         Inputs:
-        Ouputs:
+        Outputs:
         Summary:
         '''
         super().__init__()
@@ -37,14 +37,14 @@ class MLStripper(HTMLParser):
     def handle_data(self, d):
         '''
         Inputs:
-        Ouputs:
+        Outputs:
         Summary:
         '''
         self.text.write(d)
     def get_data(self):
         '''
         Inputs:
-        Ouputs:
+        Outputs:
         Summary:
         '''
         return self.text.getvalue()
@@ -52,7 +52,7 @@ class MLStripper(HTMLParser):
 def strip_html_tags(ticket_object):
     '''
     Inputs:
-    Ouputs:
+    Outputs:
     Summary:
     '''
     strip_html = MLStripper()
@@ -62,7 +62,7 @@ def strip_html_tags(ticket_object):
 def write_to_csv(csv_data, csv_file):
     '''
     Inputs:
-    Ouputs:
+    Outputs:
     Summary:
     '''
     with open(csv_file, "a+", encoding="utf-8") as write_data:
@@ -72,7 +72,7 @@ def write_to_csv(csv_data, csv_file):
 def create_user_table(spiceworks_json, user_csvfile):
     '''
     Inputs:
-    Ouputs:
+    Outputs:
     Summary:
     '''
     with open(spiceworks_json, 'r', encoding='utf-8') as read_users:
@@ -112,13 +112,13 @@ def create_user_table(spiceworks_json, user_csvfile):
 def create_ticket_table(spiceworks_json, ticket_csvfile):
     '''
     Inputs:
-    Ouputs:
+    Outputs:
     Summary: table
     '''
     def parse_comments(comment_list):
         '''
         Inputs:
-        Ouputs:
+        Outputs:
         Summary:
         '''
         comments_made = {}
@@ -134,7 +134,7 @@ def create_ticket_table(spiceworks_json, ticket_csvfile):
     def ticket_review(ticket_data, ticket_status, ticket_statustime):
         '''
         Inputs:
-        Ouputs:
+        Outputs:
         Summary: review
         '''
         if "description" in ticket_data:
