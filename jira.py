@@ -18,7 +18,7 @@ To Dos:
 - code linting
 - software tests
 - exception handling
-- 
+- merging comments: remove final \n escape char
 '''
 import csv
 import os
