@@ -72,6 +72,8 @@ def open_csvdir():
         Summary:
         creates csv files with headers needed later on
         '''
+        csv_button.set("loading...")
+
         users_csv = file_path+"/users.csv"
         tickets_csv = file_path+"/tickets.csv"
 
@@ -88,7 +90,6 @@ def open_csvdir():
             write_csv(tickets_csv, "ASSIGNED_ID,CREATED_ID,CREATED_AT,CLOSED_AT,STATUS,SUMMARY,DESCRIPTION,COMMENTS")
         csv_button.set("CSV Files Created!")
     
-    csv_button.set("loading...")
     csv_dir = askdirectory(parent=root, title='Choose CSV Output Directory:')
     if csv_dir:
         create_csvfiles(csv_dir)
@@ -122,6 +123,9 @@ def assign_userids():
     change_userid_button.set("parsing...")
     map_user_ids(csv_data+'/users.csv',csv_data+'/tickets.csv', csv_data)
     change_userid_button.set("Assigned User IDs!")
+
+def merge_columns():
+    return
 
 root = tk.Tk()
 
@@ -180,8 +184,8 @@ change_userid_button.set("Change User IDs")
 change_userid_btn.grid(column=2, row=5)
 
 merge_comments_csv_button = tk.StringVar()
-merge_comments_csv_btn = tk.Button(root, textvariable=change_userid_button, command=lambda:assign_userids(), width=15)
-merge_comments_csv_button.set("Change User IDs")
+merge_comments_csv_btn = tk.Button(root, textvariable=merge_comments_csv_button, command=lambda:merge_columns(), width=15)
+merge_comments_csv_button.set("Merge Columns")
 merge_comments_csv_btn.grid(column=2, row=6)
 
 root.mainloop()
