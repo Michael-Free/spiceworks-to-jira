@@ -1,6 +1,6 @@
 '''
-▒█▀▀▀█ █▀▀█ ░▀░ █▀▀ █▀▀ █▀█ ░░░▒█ ▀█▀ ▒█▀▀█ ░█▀▀█ 
-░▀▀▀▄▄ █░░█ ▀█▀ █░░ █▀▀ ░▄▀ ░▄░▒█ ▒█░ ▒█▄▄▀ ▒█▄▄█ 
+▒█▀▀▀█ █▀▀█ ░▀░ █▀▀ █▀▀ █▀█ ░░░▒█ ▀█▀ ▒█▀▀█ ░█▀▀█
+░▀▀▀▄▄ █░░█ ▀█▀ █░░ █▀▀ ░▄▀ ░▄░▒█ ▒█░ ▒█▄▄▀ ▒█▄▄█
 ▒█▄▄▄█ █▀▀▀ ▀▀▀ ▀▀▀ ▀▀▀ █▄▄ ▒█▄▄█ ▄█▄ ▒█░▒█ ▒█░▒█
 
 Filename: main.py
@@ -19,19 +19,18 @@ To Dos:
 - Code Linting
 - some proper testing
 - exception handling (goes with testing)
-- arrange directory structure of repo
 '''
 import os
 import json
 import tkinter as tk
 from pathlib import Path
-from PIL import Image, ImageTk
 from tkinter.filedialog import askopenfile, askdirectory
+from PIL import Image, ImageTk
 from modules.jira import map_user_ids, merge_comments, format_csvfile
 from modules.spiceworks import create_user_table, create_ticket_table
 
-json_data = ''
-csv_data = ''
+JSON_DATA = ''
+CSV_DATA = ''
 
 def open_jsonfile():
     '''
@@ -39,15 +38,19 @@ def open_jsonfile():
     - Verify Json Format
     - Doesn't verify if it's s.w. format
     '''
-    global json_data
+    global JSON_DATA
     json_button.set("loading...")
-    json_file = askopenfile(parent=root, title='Choose Spiceworks JSON Datafile:', filetypes = (('json files','*.json'),('all files','*.*')))
+    json_file = askopenfile(
+            parent = root,
+            title = 'Choose Spiceworks JSON Datafile:',
+            filetypes = (('json files','*.json'),('all files','*.*'))
+        )
     if json_file:
         try:
             with open(json_file.name, 'r', encoding='utf-8') as json_verify:
                 json.load(json_verify)
                 json_button.set("JSON Verified!")
-                json_data = json_file.name
+                JSON_DATA = json_file.name
             json_verify.close()
         except ValueError:
             json_button.set("Bad JSON Format!")
@@ -58,7 +61,7 @@ def open_csvdir():
     - CSV files for users and tickets created
     - headers added to both CSV files.
     '''
-    global csv_data
+    global CSV_DATA
     def write_csv(file_path, headers):
         '''
         - receives path of file, and data
@@ -86,15 +89,20 @@ def open_csvdir():
 
         if Path(tickets_csv).is_file():
             os.remove(tickets_csv)
-            write_csv(tickets_csv, "ASSIGNED_ID,CREATED_ID,CREATED_AT,CLOSED_AT,STATUS,SUMMARY,DESCRIPTION,COMMENTS")
+            write_csv(
+                tickets_csv,
+                "ASSIGNED_ID,CREATED_ID,CREATED_AT,CLOSED_AT,STATUS,SUMMARY,DESCRIPTION,COMMENTS"
+                )
         else:
-            write_csv(tickets_csv, "ASSIGNED_ID,CREATED_ID,CREATED_AT,CLOSED_AT,STATUS,SUMMARY,DESCRIPTION,COMMENTS")
+            write_csv(
+                tickets_csv,
+                "ASSIGNED_ID,CREATED_ID,CREATED_AT,CLOSED_AT,STATUS,SUMMARY,DESCRIPTION,COMMENTS"
+                )
         csv_button.set("CSV Files Created!")
-    
     csv_dir = askdirectory(parent=root, title='Choose CSV Output Directory:')
     if csv_dir:
         create_csvfiles(csv_dir)
-        csv_data = csv_dir
+        CSV_DATA = csv_dir
 
 def user_tables():
     '''
@@ -102,7 +110,7 @@ def user_tables():
     - uses inputs from previous button presses
     '''
     user_table_button.set("loading...")
-    create_user_table(json_data, csv_data+'/users.csv')
+    create_user_table(JSON_DATA, CSV_DATA+'/users.csv')
     user_table_button.set("User Table Created!")
 
 def ticket_tables():
@@ -111,7 +119,7 @@ def ticket_tables():
     - uses inputs from previous button presses
     '''
     ticket_table_button.set("loading...")
-    create_ticket_table(json_data, csv_data+'/tickets.csv')
+    create_ticket_table(JSON_DATA, CSV_DATA+'/tickets.csv')
     ticket_table_button.set("Ticket Table Created!")
 
 def assign_userids():
@@ -121,7 +129,7 @@ def assign_userids():
     - populates that data in the ticket table
     '''
     change_userid_button.set("parsing...")
-    map_user_ids(csv_data+'/users.csv',csv_data+'/tickets.csv', csv_data)
+    map_user_ids(CSV_DATA+'/users.csv',CSV_DATA+'/tickets.csv', CSV_DATA)
     change_userid_button.set("Assigned User IDs!")
 
 def merge_columns():
@@ -131,7 +139,7 @@ def merge_columns():
     - see jira.py for more information
     '''
     merge_comments_csv_button.set("merging...")
-    merge_comments(csv_data+"/tickets.csv", csv_data)
+    merge_comments(CSV_DATA+"/tickets.csv", CSV_DATA)
     merge_comments_csv_button.set("Columns Merged!")
 
 def final_format():
@@ -141,7 +149,7 @@ def final_format():
     - see jira.py for mor information
     '''
     final_format_csv_button.set("formatting...")
-    format_csvfile(csv_data+"/tickets.csv", csv_data)
+    format_csvfile(CSV_DATA+"/tickets.csv", CSV_DATA)
     final_format_csv_button.set("Formatted!")
 
 root = tk.Tk()
@@ -180,37 +188,71 @@ final_format_csv.grid(column=0, row=7)
 
 #buttons
 json_button = tk.StringVar()
-json_btn = tk.Button(root, textvariable=json_button, command=lambda:open_jsonfile(), width=15)
+json_btn = tk.Button(root,
+    textvariable = json_button,
+    command = lambda:open_jsonfile(),
+    width=15
+    )
 json_button.set("Select JSON File")
 json_btn.grid(column=2, row=1)
 
 csv_button = tk.StringVar()
-csv_btn = tk.Button(root, textvariable=csv_button, command=lambda:open_csvdir(), width=15)
+csv_btn = tk.Button(
+    root,
+    textvariable = csv_button,
+    command = lambda:open_csvdir(),
+    width=15
+    )
 csv_button.set("Select CSV Dir")
 csv_btn.grid(column=2, row=2)
 
 user_table_button = tk.StringVar()
-user_table_btn = tk.Button(root, textvariable=user_table_button, command=lambda:user_tables(), width=15)
+user_table_btn = tk.Button(
+    root,
+    textvariable = user_table_button,
+    command=lambda:user_tables(),
+    width=15
+    )
 user_table_button.set("Create User Table")
-user_table_btn.grid(column=2,row=3) 
+user_table_btn.grid(column=2,row=3)
 
 ticket_table_button = tk.StringVar()
-ticket_table_btn = tk.Button(root, textvariable=ticket_table_button, command=lambda:ticket_tables(), width=15)
+ticket_table_btn = tk.Button(
+    root,
+    textvariable=ticket_table_button,
+    command=lambda:ticket_tables(),
+    width=15
+    )
 ticket_table_button.set("Create Ticket Table")
 ticket_table_btn.grid(column=2,row=4)
 
 change_userid_button = tk.StringVar()
-change_userid_btn = tk.Button(root, textvariable=change_userid_button, command=lambda:assign_userids(), width=15)
+change_userid_btn = tk.Button(
+    root,
+    textvariable = change_userid_button,
+    command=lambda:assign_userids(),
+    width=15
+    )
 change_userid_button.set("Change User IDs")
 change_userid_btn.grid(column=2, row=5)
 
 merge_comments_csv_button = tk.StringVar()
-merge_comments_csv_btn = tk.Button(root, textvariable=merge_comments_csv_button, command=lambda:merge_columns(), width=15)
+merge_comments_csv_btn = tk.Button(
+    root,
+    textvariable = merge_comments_csv_button,
+    command = lambda:merge_columns(),
+    width=15
+    )
 merge_comments_csv_button.set("Merge Columns")
 merge_comments_csv_btn.grid(column=2, row=6)
 
 final_format_csv_button = tk.StringVar()
-final_format_csv_btn = tk.Button(root, textvariable=final_format_csv_button, command=lambda:final_format(), width=15)
+final_format_csv_btn = tk.Button(
+    root,
+    textvariable = final_format_csv_button,
+    command=lambda:final_format(),
+    width=15
+    )
 final_format_csv_button.set("Final Formatting")
 final_format_csv_btn.grid(column=2, row=7)
 
