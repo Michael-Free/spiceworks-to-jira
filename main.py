@@ -26,9 +26,9 @@ import json
 import tkinter as tk
 from pathlib import Path
 from PIL import Image, ImageTk
-from jira import map_user_ids, merge_comments, format_csvfile
 from tkinter.filedialog import askopenfile, askdirectory
-from spiceworks import create_user_table, create_ticket_table
+from modules.jira import map_user_ids, merge_comments, format_csvfile
+from modules.spiceworks import create_user_table, create_ticket_table
 
 json_data = ''
 csv_data = ''
