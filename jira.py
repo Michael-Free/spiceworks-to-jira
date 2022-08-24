@@ -3,12 +3,22 @@
 ░▄░▒█ ▀█▀ █▄▄▀ █▄▄█ ▒█░░░ ▀▀█ ░█▄█░ 
 ▒█▄▄█ ▀▀▀ ▀░▀▀ ▀░░▀ ▒█▄▄█ ▀▀▀ ░░▀░░
 
-Filename:
-Created By:
-Description:
+Filename: jira.py
+
+Created By: Michael Free
+
 Summary:
+A framework for preparing spiceworks
+csv data for importation into Jira
+Service Management.
+
+Description:
+
 To Dos:
-- add headers to format_csvfile()
+- code linting
+- software tests
+- exception handling
+- 
 '''
 import csv
 import os
