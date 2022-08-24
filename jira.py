@@ -54,9 +54,15 @@ def format_datetime(current_format):
 
 def map_user_ids(user_csvfile, ticket_csvfile, csv_directory):
     '''
-    Inputs:
-    Outputs:
-    Summary: user ids
+    - receives users file location, ticket file location
+    - receives the working directory for csv files
+    - creates a new csv file for working
+    - iterates through ticket csv file
+    - calls search_user_table and replaces user ID numbers
+      and replaces them with email addresses returned.
+    - writes to the new csv file.
+    - old tickets file is deleted
+    - new tickets file is renamed ot the one deleted.
     '''
     with open(ticket_csvfile, "r", encoding="utf-8") as ticket_lookup:
         ticket_table = csv.DictReader(ticket_lookup, delimiter=",")
@@ -83,15 +89,16 @@ def map_user_ids(user_csvfile, ticket_csvfile, csv_directory):
 
 def merge_comments(ticket_csvfile, csv_directory):
     '''
-    Inputs:
-    Outputs:
-    Summary:
-
-    JIRA doesn't support importing of comments
-    https://community.atlassian.com/t5/Jira-Service-Management/How-to-import-Comments-amp-Attachments-using-the-CSV-Importer/qaq-p/1921044
-    
-    Add comments to ticket description
-    Do some reformatting for the JIRA import
+    - Receives ticket csvfile and the working directory
+    - creates a new csv file
+    - iterates through the ticket csv file
+    - merges the description and comments columns
+    - deletes the old ticket csv file
+    - renames the new csv file to the old ticket csv
+    - jira doesn't support importation of comments:
+      https://community.atlassian.com/t5/Jira-Service-
+      Management/How-to-import-Comments-amp-Attachments-
+      using-the-CSV-Importer/qaq-p/1921044
     '''
     with open(ticket_csvfile, "r", encoding="utf-8") as old_ticketfile:
         reader = csv.DictReader(old_ticketfile)
@@ -113,11 +120,17 @@ def merge_comments(ticket_csvfile, csv_directory):
 
 def format_csvfile(ticket_csvfile, csv_directory):
     '''
-    Inputs:
-    Outputs:
-    Summary:
-    format for jira
-    https://support.atlassian.com/jira-service-management-cloud/docs/import-a-csv-file-into-insight/
+    - receives the ticket csv file and working directory
+    - creates a new csv file
+    - iterates through the old csv file
+    - interprets all unicode escape characters literally
+      in the description section
+    - writes that to the new csv file
+    - deletes the old csv file, renames the new one to
+      the old one.
+    - referencing jira's documentation here on multi-line data:
+      https://support.atlassian.com/jira-service-management-
+      cloud/docs/import-a-csv-file-into-insight/
     '''
     with open(ticket_csvfile, "r", encoding="utf-8") as new_tix:
         reader_csv = csv.DictReader(new_tix)
