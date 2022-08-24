@@ -133,14 +133,21 @@ logo_label.grid(column=1, row=0)
 #labels
 json_filelabel = tk.Label(root, text="Choose a JSON File")
 json_filelabel.grid(column=0, row=1)
+
 csv_outputlabel = tk.Label(root, text="Choose CSV Directory")
 csv_outputlabel.grid(column=0, row=2)
+
 user_outputlabel = tk.Label(root, text="Create User Table")
 user_outputlabel.grid(column=0, row=3)
+
 ticket_outputlabel = tk.Label(root, text="Create Ticket Table")
 ticket_outputlabel.grid(column=0, row=4)
+
 change_user_id_email = tk.Label(root, text="Change User IDs to Emails")
 change_user_id_email.grid(column=0, row=5)
+
+merge_comments_csv = tk.Label(root, text="Merge Description & Comments")
+merge_comments_csv.grid(column=0, row=6)
 
 #buttons
 json_button = tk.StringVar()
