@@ -125,12 +125,14 @@ def assign_userids():
     change_userid_button.set("Assigned User IDs!")
 
 def merge_columns():
+    merge_comments_csv_button.set("merging...")
     return
 
 root = tk.Tk()
 
 canvas = tk.Canvas(root, width=600, height=200, bg='white')
 canvas.grid(columnspan=3)
+
 #logo
 logo = Image.open('spice2jira-logo.png')
 logo = ImageTk.PhotoImage(logo)
