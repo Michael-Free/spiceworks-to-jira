@@ -18,6 +18,7 @@ To Dos:
 - Finalize Formatting for import to jira
 - some proper testing
 - exception handling (goes with testing)
+- add open and close date
 '''
 import os
 import json

@@ -122,8 +122,10 @@ def merge_comments(ticket_csvfile, csv_directory):
                         ""+row["ASSIGNED_ID"]+", "
                         ""+row["CREATED_ID"]+", "
                         ""+row["STATUS"]+", "
-                        ""+row["DESCRIPTION"]+repr("\n").strip("\'")
-                        +str(row["COMMENTS"])+""
+                        ""+row["CREATED_AT"]+repr("\n").strip("\'")
+                        +row["DESCRIPTION"]+repr("\n").strip("\'")
+                        +str(row["COMMENTS"])
+                        +row["CLOSED_AT"]+""
                 )
     os.remove(ticket_csvfile)
     os.rename(csv_directory+"/new_tickets.csv", ticket_csvfile)
