@@ -12,7 +12,8 @@ A small python tool for preparing a migration from Spiceworks to Jira Service Ma
 ![Step 2 - Choose Output Directory](media/application_preview-step-2.png)
 
 
-## Step 3
+## Step 3 - Create the Spiceworks User Table
+![Step 3 - Create User Table](media/application_preview-step-3.png)
 
 ## Step 4
 
