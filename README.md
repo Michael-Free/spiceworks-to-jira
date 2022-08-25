@@ -18,7 +18,8 @@ A small python tool for preparing a migration from Spiceworks to Jira Service Ma
 ## Step 4 - Create the Spiceworks Ticket Table
 ![Step 4 - Create Ticket Table](media/application_preview-step-4.png)
 
-## Step 5
+## Step 5 - Assign User ID Numbers to E-Mail Addresses
+![Step 5 - Assign User IDs](media/application_preview-step-5.png)
 
 ## Step 6
 
