@@ -5,7 +5,8 @@ A small python tool for preparing a migration from Spiceworks to Jira Service Ma
 
 ## Summary
 
-## Step 1
+## Step 1 - Select Your JSON File
+![Step 1 - Import JSON](media/application_preview-step-1.png)
 
 ## Step 2
 
