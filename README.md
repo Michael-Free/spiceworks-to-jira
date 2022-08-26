@@ -8,6 +8,10 @@ Spiceworks used to a free, self-hosted ticketing system.  Their current system h
 
 Spiceworks has been harvesting user submitted data for a very long time.  They have also been using self-hosted resources to present advertisements with the processsing power of their customers, to serve advertisements on internal tickets as a revenue model.  Since their change to the cloud-based SaaS model, many users have decided their product offering isn't what it's cracked up to be. Those end-users have decided (to their own detriment) that JIRA Service Management is a much better solution for the price and feature set.  If your internal IT Services team is less than 5 users, this might be a tool for you for free.  If your IT Services team is larger than that, this is still a tool for you. You just might need to put more work into scrubbing the data (depending how long you've been using spiceworks).
 
+Each button to press in the application is a step for an administrator to check and scrub their data to make sure it's ready for an import to JIRA Serivce Management... which also used to be called JIRA Service Desk. For how much Atlassian has issues, it's probably not as bad as Spiceworks is.
+
+This methodology will help IT Admins prepare for their eventual move to a tool that is used by the wider technology industry. For better or for worse.
+
 ## Step 1 - Select Your JSON File
 ![Step 1 - Import JSON](media/application_preview-step-1.png)
 
