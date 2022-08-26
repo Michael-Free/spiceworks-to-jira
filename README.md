@@ -15,6 +15,10 @@ This methodology will help IT Admins prepare for their eventual move to a tool t
 ## Step 1 - Select Your JSON File
 ![Step 1 - Import JSON](media/application_preview-step-1.png)
 
+If you're a "Windows Administrator" - I congratulate you for being able to getting Python installed.  But I understand, there are some pretty complicated buttons to press.
+
+This is place where you're going to be able to select the JSON file where all of your ticket and user data has been exported to.  
+
 ## Step 2 - Select the Output Directory for CSV Files
 ![Step 2 - Choose Output Directory](media/application_preview-step-2.png)
 
