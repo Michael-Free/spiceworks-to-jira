@@ -22,6 +22,7 @@ A small python tool for preparing a migration from Spiceworks to Jira Service Ma
 ![Step 5 - Assign User IDs](media/application_preview-step-5.png)
 
 ## Step 6
+![Step 6 - Merge Description and Comment Columns](media/application_preview-step-6.png)
 
 ## Step 7
 
