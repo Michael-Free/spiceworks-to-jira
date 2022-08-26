@@ -24,5 +24,5 @@ A small python tool for preparing a migration from Spiceworks to Jira Service Ma
 ## Step 6 - Merge Description & Comment Columns
 ![Step 6 - Merge Description and Comment Columns](media/application_preview-step-6.png)
 
-## Step 7
-
+## Step 7 - Interpret Unicode Escape Characters
+![Step 7 - Interpret Escape Chars.](media/application_preview-step-7.png)
