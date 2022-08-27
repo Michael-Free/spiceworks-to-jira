@@ -48,7 +48,7 @@ It will then replace those user IDs with the approriate email address in the `ti
 
 JIRA doesn't officially support importing comments. The best, cheapest, and quickest route is importing all comments into the ticket description directly from the spiceworks data.
 
-At this point, we're merging the Description, and Comments column together.  
+At this point, we're merging the Description, and Comments column together.  This is another great opportunity for you to look over your entire `tickets.csv` file. Make sure that this formatting is correct (manually).
 
 ## Step 7 - Interpret Unicode Escape Characters
 ![Step 7 - Interpret Escape Chars.](media/application_preview-step-7.png)
