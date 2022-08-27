@@ -31,12 +31,17 @@ Be sure to manually go through this file to make any desired changes to the user
 
 ## Step 4 - Create the Spiceworks Ticket Table
 ![Step 4 - Create Ticket Table](media/application_preview-step-4.png)
+
 Click the `Create Ticket Table` button to populate the `tickets.csv` file.  This will sort through the exported json file and filel the csv file with ticket data including userid, created/closed times, ticket status, summary, description and comments.
 
 This will be a good opportuntiy to manually go through the `tickets.csv` file to manually to see if there is anything that looks incorrectly formatted in the file.
 
 ## Step 5 - Assign User ID Numbers to E-Mail Addresses
 ![Step 5 - Assign User IDs](media/application_preview-step-5.png)
+
+Before the `tickets.csv` file can be imported to JIRA, we'll need to changed all of the numeric user IDs in spiceworks to the email address associated with it.  This will go through each line of `tickets.csv`, get the assignee's ID number and the requestor's ID number and perform lookups of those numbers in `users.csv` and grab the associated email.
+
+It will then replace those user IDs with the approriate email address in the `tickets.csv` file.
 
 ## Step 6 - Merge Description & Comment Columns
 ![Step 6 - Merge Description and Comment Columns](media/application_preview-step-6.png)
