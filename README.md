@@ -31,6 +31,9 @@ Be sure to manually go through this file to make any desired changes to the user
 
 ## Step 4 - Create the Spiceworks Ticket Table
 ![Step 4 - Create Ticket Table](media/application_preview-step-4.png)
+Click the `Create Ticket Table` button to populate the `tickets.csv` file.  This will sort through the exported json file and filel the csv file with ticket data including userid, created/closed times, ticket status, summary, description and comments.
+
+This will be a good opportuntiy to manually go through the `tickets.csv` file to manually to see if there is anything that looks incorrectly formatted in the file.
 
 ## Step 5 - Assign User ID Numbers to E-Mail Addresses
 ![Step 5 - Assign User IDs](media/application_preview-step-5.png)
