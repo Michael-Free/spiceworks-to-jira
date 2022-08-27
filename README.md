@@ -46,5 +46,9 @@ It will then replace those user IDs with the approriate email address in the `ti
 ## Step 6 - Merge Description & Comment Columns
 ![Step 6 - Merge Description and Comment Columns](media/application_preview-step-6.png)
 
+JIRA doesn't officially support importing comments. The best, cheapest, and quickest route is importing all comments into the ticket description directly from the spiceworks data.
+
+At this point, we're merging the Description, and Comments column together.  
+
 ## Step 7 - Interpret Unicode Escape Characters
 ![Step 7 - Interpret Escape Chars.](media/application_preview-step-7.png)
