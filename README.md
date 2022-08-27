@@ -20,9 +20,11 @@ This is place where you're going to be able to select the JSON file where all of
 ## Step 2 - Select the Output Directory for CSV Files
 ![Step 2 - Choose Output Directory](media/application_preview-step-2.png)
 
+The directory chosen here is where `users.csv` and `tickets.csv` going to be created. Once the csv files are created, headers are added to the csv file. This will be the working directory for the rest of the prepared import file to JIRA Service Management.
 
 ## Step 3 - Create the Spiceworks User Table
 ![Step 3 - Create User Table](media/application_preview-step-3.png)
+
 
 ## Step 4 - Create the Spiceworks Ticket Table
 ![Step 4 - Create Ticket Table](media/application_preview-step-4.png)
