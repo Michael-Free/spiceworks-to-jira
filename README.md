@@ -25,6 +25,9 @@ The directory chosen here is where `users.csv` and `tickets.csv` going to be cre
 ## Step 3 - Create the Spiceworks User Table
 ![Step 3 - Create User Table](media/application_preview-step-3.png)
 
+Click the `Create User Table` button to populate the `users.csv` file.  This will sort through the exported json file and fill the csv file with users data including name, role, email address, and the user ID assigned via Spiceworks.
+
+Be sure to manually go through this file to make any desired changes to the users before moving on to the next step.
 
 ## Step 4 - Create the Spiceworks Ticket Table
 ![Step 4 - Create Ticket Table](media/application_preview-step-4.png)
