@@ -52,3 +52,7 @@ At this point, we're merging the Description, and Comments column together.  Thi
 
 ## Step 7 - Interpret Unicode Escape Characters
 ![Step 7 - Interpret Escape Chars.](media/application_preview-step-7.png)
+
+JIRA Service Management doesn't interpret Unicode Escape Characters.  That means not every ticket and relevant information can be stored on one line.  By clicking this button, all unicode escape characters are interpreted in a very messy-looking (but importable) CSV file.
+
+Congrats!  Now you're ready for an import through JIRA's import wizard!
